@@ -1,14 +1,17 @@
 # The Clock
 
-이 프로젝트는 React, TypeScript, 그리고 Tailwind CSS를 사용하여 만든 모던한 웹 시계 애플리케이션입니다.
+이 프로젝트는 React, TypeScript, 그리고 Tailwind CSS를 사용하여 만든 모던한 웹 시계 애플리케이션입니다. OpenWeatherMap API를 활용해 실시간 날씨 정보를 제공합니다.
+
+![The Clock Preview](https://via.placeholder.com/800x450.png?text=The+Clock+Preview)
 
 ## 주요 기능
 
 - **아날로그/디지털 시계 전환**: 두 가지 시계 모드를 쉽게 전환할 수 있습니다.
 - **다크 모드/라이트 모드**: 사용자 환경에 맞게 테마를 변경할 수 있습니다.
 - **실시간 시간 표시**: 현재 시간을 정확하게 보여줍니다.
-- **위치 및 날씨 정보**: 현재 위치와 날씨 상태를 표시합니다.
-- **반응형 디자인**: 모든 디바이스 화면 크기에 맞게 조정됩니다.
+- **실시간 위치 및 날씨 정보**: OpenWeatherMap API를 사용하여 현재 위치와 날씨 상태를 표시합니다.
+- **반응형 디자인**: 모든 디바이스 화면 크기에 맞게 최적화되어 있습니다.
+- **설정 유지**: 사용자의 시계 모드 선호도를 로컬 스토리지에 저장합니다.
 
 ## 기술 스택
 
@@ -18,6 +21,7 @@
 - **Vite**: 빠른 개발 서버 및 빌드 도구
 - **date-fns**: 날짜 및 시간 형식화 라이브러리
 - **Lucide React**: 아이콘 컴포넌트 라이브러리
+- **OpenWeatherMap API**: 실시간 날씨 데이터 제공
 
 ## 설치 방법
 
@@ -31,11 +35,24 @@ cd the-clock
 # 의존성 설치
 npm install
 
+# 환경 변수 설정
+cp .env.example .env
+# .env 파일에 OpenWeatherMap API 키 추가
+# VITE_OPENWEATHERMAP_API_KEY=your_api_key_here
+
 # 개발 서버 실행
 npm run dev
 ```
 
 개발 서버는 기본적으로 `http://localhost:5173`에서 실행됩니다.
+
+### OpenWeatherMap API 키 발급 방법
+
+1. [OpenWeatherMap](https://openweathermap.org/) 웹사이트에 접속
+2. 회원가입 및 로그인
+3. 계정 메뉴에서 "My API Keys" 선택
+4. 기본 생성된 키 사용 또는 새 키 생성
+5. API 키를 복사하여 `.env` 파일에 붙여넣기
 
 ## 빌드 방법
 
@@ -51,23 +68,44 @@ npm run build
 
 ```
 the-clock/
-├── public/              # 정적 파일
-│   └── clock-icon.svg   # 파비콘
-├── src/                 # 소스 코드
-│   ├── components/      # 리액트 컴포넌트
-│   │   ├── clock/       # 시계 관련 컴포넌트  
-│   │   └── weather/     # 날씨 관련 컴포넌트
-│   ├── hooks/           # 커스텀 React 훅
-│   ├── types/           # TypeScript 타입 정의
-│   ├── App.tsx          # 메인 앱 컴포넌트
-│   ├── main.tsx         # 앱 진입점
-│   └── index.css        # 전역 스타일
-├── index.html           # HTML 템플릿
-├── package.json         # 의존성 및 스크립트
-├── tailwind.config.js   # Tailwind 설정
-├── tsconfig.json        # TypeScript 설정
-└── vite.config.ts       # Vite 설정
+├── public/               # 정적 파일
+│   └── clock-icon.svg    # 파비콘
+├── src/                  # 소스 코드
+│   ├── components/       # 리액트 컴포넌트
+│   │   ├── clock/        # 시계 관련 컴포넌트
+│   │   └── weather/      # 날씨 관련 컴포넌트
+│   ├── hooks/            # 커스텀 React 훅
+│   ├── services/         # API 서비스
+│   │   └── weatherService.ts # 날씨 API 서비스
+│   ├── types/            # TypeScript 타입 정의
+│   ├── App.tsx           # 메인 앱 컴포넌트
+│   ├── main.tsx          # 앱 진입점
+│   └── index.css         # 전역 스타일
+├── .env.example          # 환경 변수 예제 파일
+├── index.html            # HTML 템플릿
+├── package.json          # 의존성 및 스크립트
+├── tailwind.config.js    # Tailwind 설정
+├── tsconfig.json         # TypeScript 설정
+└── vite.config.ts        # Vite 설정
 ```
+
+## 주요 기능 소개
+
+### 1. 실시간 날씨 정보
+
+OpenWeatherMap API를 사용하여 사용자의 현재 위치 기반 실시간 날씨 정보를 표시합니다. 사용자는 위치 정보 접근 권한을 허용해야 합니다.
+
+### 2. 다크 모드 / 라이트 모드
+
+시스템 설정에 맞춰 자동으로 테마가 적용되며, 사용자가 직접 전환할 수도 있습니다.
+
+### 3. 반응형 디자인
+
+모바일, 태블릿, 데스크톱 등 다양한 화면 크기에 최적화된 UI를 제공합니다.
+
+### 4. 사용자 설정 저장
+
+사용자가 선택한 시계 모드(아날로그/디지털)를 로컬 스토리지에 저장하여 다음 방문 시에도 유지됩니다.
 
 ## 앞으로의 개선 사항
 
@@ -75,6 +113,7 @@ the-clock/
 - 알람 기능 추가
 - 사용자 정의 테마
 - 오프라인 모드 지원
+- 날씨 예보 기능 추가 (주간 예보)
 
 ## 기여하기
 
@@ -90,4 +129,4 @@ MIT 라이센스에 따라 배포됩니다. 자세한 내용은 LICENSE 파일�
 
 ---
 
-이 프로젝트는 [Vite](https://vitejs.dev/)와 [Tailwind CSS](https://tailwindcss.com/)를 사용하여 구축되었습니다.
+이 프로젝트는 [Vite](https://vitejs.dev/), [Tailwind CSS](https://tailwindcss.com/)와 [OpenWeatherMap API](https://openweathermap.org/api)를 사용하여 구축되었습니다.
