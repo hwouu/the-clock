@@ -129,9 +129,9 @@ export const getWeatherIcon = (weatherId: number): string => {
   } else if (weatherId >= 500 && weatherId < 600) {
     return "🌧️"; // Rain
   } else if (weatherId >= 600 && weatherId < 700) {
-    return "❄️"; // Snow
+    return "❄"; // Snow
   } else if (weatherId >= 700 && weatherId < 800) {
-    return "🌫️"; // Atmosphere (fog, mist, etc.)
+    return "☁"; // Atmosphere (fog, mist, etc.)
   } else if (weatherId === 800) {
     return "☀️"; // Clear
   } else if (weatherId >= 801 && weatherId <= 804) {
