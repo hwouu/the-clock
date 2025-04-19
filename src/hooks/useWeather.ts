@@ -1,5 +1,7 @@
+// src/hooks/useWeather.ts
 import { useState, useEffect } from "react";
 import { WeatherData } from "../types/clock";
+import { getFullWeatherInfo } from "../services/weatherService";
 
 export function useWeather() {
   const [weather, setWeather] = useState<WeatherData>({
@@ -8,44 +10,62 @@ export function useWeather() {
     icon: "🔄",
   });
   const [location, setLocation] = useState<string>("Loading location...");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // 실제 프로젝트에서는 여기에 지오로케이션 API와 날씨 API를 사용할 수 있습니다
-    // 현재는 더미 데이터로 시뮬레이션합니다
-    const getLocationAndWeather = async () => {
+    const fetchWeatherData = async () => {
       try {
-        // 위치 가져오기 시뮬레이션
-        setTimeout(() => {
-          setLocation("Seoul, South Korea");
+        setIsLoading(true);
 
-          // 날씨 가져오기 시뮬레이션
-          const weatherConditions = [
-            { temp: "18°C", condition: "Partly Cloudy", icon: "⛅" },
-            { temp: "22°C", condition: "Sunny", icon: "☀️" },
-            { temp: "15°C", condition: "Rainy", icon: "🌧️" },
-            { temp: "12°C", condition: "Cloudy", icon: "☁️" },
-          ];
+        // Get weather data
+        const { weather, location } = await getFullWeatherInfo();
 
-          // 랜덤하게 날씨 선택 (더 역동적인 데모를 위해)
-          const randomWeather =
-            weatherConditions[
-              Math.floor(Math.random() * weatherConditions.length)
-            ];
-          setWeather(randomWeather);
-        }, 1000);
-      } catch (error) {
-        console.error("Error fetching location or weather:", error);
-        setLocation("Location unavailable");
+        setWeather(weather);
+        setLocation(location);
+        setError(null);
+      } catch (err) {
+        console.error("Error in useWeather hook:", err);
+        setError(
+          "Failed to fetch weather data. Please check permissions and try again."
+        );
+
+        // Set fallback values
         setWeather({
           temp: "--",
           condition: "Weather unavailable",
           icon: "❓",
         });
+        setLocation("Location unavailable");
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    getLocationAndWeather();
+    fetchWeatherData();
+
+    // Set up a timer to refresh weather data periodically
+    const refreshInterval = setInterval(fetchWeatherData, 30 * 60 * 1000); // refresh every 30 minutes
+
+    return () => clearInterval(refreshInterval);
   }, []);
 
-  return { weather, location };
+  const refreshWeather = async () => {
+    if (isLoading) return;
+
+    try {
+      setIsLoading(true);
+      const result = await getFullWeatherInfo();
+      setWeather(result.weather);
+      setLocation(result.location);
+      setError(null);
+    } catch (err) {
+      console.error("Error refreshing weather data:", err);
+      setError("Failed to refresh weather data");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { weather, location, error, isLoading, refreshWeather };
 }
