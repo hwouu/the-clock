@@ -1,6 +1,8 @@
 import React from 'react';
-import { MapPin, CalendarDays } from 'lucide-react';
+import { MapPin, CalendarClock } from 'lucide-react';
 import { WeatherData } from '../../types/clock';
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
 
 interface WeatherDisplayProps {
   weather: WeatherData;
@@ -9,32 +11,38 @@ interface WeatherDisplayProps {
   date: Date;
 }
 
-const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather, location, isDarkMode, date }) => {
+const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ 
+  weather, 
+  location, 
+  isDarkMode, 
+  date 
+}) => {
   const formatDateTime = (date: Date): string => {
-    const options: Intl.DateTimeFormatOptions = { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    };
-    return date.toLocaleString('ko-KR', options);
+    return format(date, 'yyyy년 MM월 dd일 HH:mm', { locale: ko });
+  };
+
+  const getWeatherIconSize = () => {
+    return weather.icon === '⛅' || weather.icon === '☀️' || weather.icon === '🌧️' ? 'text-2xl' : 'text-xl';
   };
 
   return (
-    <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
-      <div className="flex items-center justify-between mb-2">
+    <div className={`p-4 rounded-lg transition-colors duration-300 ${
+      isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-gray-100 text-gray-800'
+    }`}>
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center space-x-2">
           <MapPin className="w-4 h-4 text-gray-500" />
-          <span className="text-sm">{location}</span>
+          <span className="text-sm font-medium">{location}</span>
         </div>
         <div className="flex items-center">
-          <span className="text-xl mr-2">{weather.icon}</span>
-          <span className="text-sm">{weather.temp} | {weather.condition}</span>
+          <span className={`mr-2 ${getWeatherIconSize()}`}>{weather.icon}</span>
+          <span className="text-sm font-medium">
+            {weather.temp} | {weather.condition}
+          </span>
         </div>
       </div>
       <div className="flex items-center space-x-2 text-sm text-gray-500">
-        <CalendarDays className="w-4 h-4" />
+        <CalendarClock className="w-4 h-4" />
         <span>{formatDateTime(date)}</span>
       </div>
     </div>
