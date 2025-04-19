@@ -1,4 +1,3 @@
-// src/components/weather/WeatherDisplay.tsx
 import React, { useEffect, useState } from "react";
 import { MapPin, CalendarClock, RefreshCw, AlertTriangle } from "lucide-react";
 import { WeatherData } from "../../types/clock";
@@ -26,16 +25,12 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
 }) => {
   const [isMobile, setIsMobile] = useState(false);
 
-  // 화면 크기 감지
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 640);
     };
 
-    // 초기 체크
     checkIfMobile();
-
-    // 리사이즈 시 체크
     window.addEventListener("resize", checkIfMobile);
 
     return () => {
@@ -44,19 +39,7 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
   }, []);
 
   const formatDateTime = (date: Date): string => {
-    return format(
-      date,
-      isMobile ? "yyyy.MM.dd HH:mm" : "yyyy년 MM월 dd일 HH:mm",
-      { locale: ko }
-    );
-  };
-
-  const getWeatherIconSize = () => {
-    return weather.icon === "⛅" ||
-      weather.icon === "☀️" ||
-      weather.icon === "🌧️"
-      ? "text-xl"
-      : "text-lg";
+    return format(date, "yyyy년 MM월 dd일 HH:mm", { locale: ko });
   };
 
   return (
@@ -65,86 +48,47 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
         isDarkMode ? "bg-gray-700 text-gray-100" : "bg-gray-100 text-gray-800"
       }`}
     >
-      <div
-        className={`flex ${
-          isMobile ? "flex-col space-y-2" : "items-center justify-between mb-3"
-        }`}
-      >
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 space-y-2 sm:space-y-0">
+        {/* 위치 */}
         <div className="flex items-center space-x-2">
-          <MapPin
-            className={`${isMobile ? "w-4 h-4" : "w-5 h-5"} ${
-              isDarkMode ? "text-gray-300" : "text-gray-500"
-            }`}
-          />
-          <span className={`${isMobile ? "text-sm" : "text-base"} font-medium`}>
-            {location}
-          </span>
+          <MapPin className="w-4 h-4 text-gray-400" />
+          <span className="text-sm font-medium">{location}</span>
         </div>
-        <div className="flex items-center">
+
+        {/* 날씨 */}
+        <div className="flex items-center space-x-2">
           {isLoading ? (
-            <RefreshCw
-              className={`mr-2 ${
-                isMobile ? "w-3.5 h-3.5" : "w-4 h-4"
-              } animate-spin ${isDarkMode ? "text-gray-300" : "text-gray-500"}`}
-            />
+            <RefreshCw className="w-4 h-4 animate-spin text-gray-400" />
           ) : error ? (
-            <AlertTriangle
-              className={`mr-2 ${isMobile ? "w-3.5 h-3.5" : "w-4 h-4"} ${
-                isDarkMode ? "text-yellow-300" : "text-yellow-500"
-              }`}
-            />
+            <AlertTriangle className="w-4 h-4 text-yellow-400" />
           ) : (
-            <span className={`mr-2 ${getWeatherIconSize()}`}>
-              {weather.icon}
-            </span>
+            <span className="text-base">{weather.icon}</span>
           )}
-          <span className={`${isMobile ? "text-sm" : "text-base"} font-medium`}>
+          <span className="text-sm font-medium">
             {weather.temp} | {weather.condition}
           </span>
           {onRefresh && (
             <button
               onClick={onRefresh}
-              className={`ml-2 p-1 rounded-full ${
+              className={`p-1 rounded-full transition-colors ${
                 isDarkMode ? "hover:bg-gray-600" : "hover:bg-gray-200"
-              } transition-colors ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
               disabled={isLoading}
               aria-label="날씨 새로고침"
             >
-              <RefreshCw
-                className={`${isMobile ? "w-3 h-3" : "w-3.5 h-3.5"} ${
-                  isDarkMode ? "text-gray-300" : "text-gray-500"
-                }`}
-              />
+              <RefreshCw className="w-4 h-4 text-gray-400" />
             </button>
           )}
         </div>
       </div>
 
-      {error && (
-        <div
-          className={`${isMobile ? "text-xs" : "text-sm"} ${
-            isDarkMode ? "text-red-300" : "text-red-500"
-          } mb-2`}
-        >
-          {error}
-        </div>
-      )}
+      {/* 에러 메시지 */}
+      {error && <div className="text-xs text-red-400 mb-2">{error}</div>}
 
-      <div
-        className={`flex items-center space-x-2 ${
-          isMobile ? "text-xs mt-2" : "text-sm"
-        }`}
-      >
-        <CalendarClock
-          className={`${isMobile ? "w-3.5 h-3.5" : "w-4 h-4"} ${
-            isDarkMode ? "text-gray-300" : "text-gray-500"
-          }`}
-        />
-        <span className={isDarkMode ? "text-gray-100" : "text-gray-800"}>
-          {formatDateTime(date)}
-        </span>
+      {/* 날짜 표시 */}
+      <div className="flex items-center space-x-2 text-xs mt-1">
+        <CalendarClock className="w-4 h-4 text-gray-400" />
+        <span className="text-sm text-gray-200">{formatDateTime(date)}</span>
       </div>
     </div>
   );
