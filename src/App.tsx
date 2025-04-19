@@ -85,9 +85,7 @@ function App() {
       <button
         onClick={toggleClockMode}
         className={`px-3 py-1.5 rounded-lg font-medium transition-colors text-sm ${
-          isDarkMode
-            ? "bg-gray-700 hover:bg-gray-600"
-            : "bg-gray-200 hover:bg-gray-300"
+          isDarkMode ? " hover:bg-gray-600" : " hover:bg-gray-300"
         }`}
         aria-label={
           clockMode === "analog" ? "디지털 모드로 전환" : "아날로그 모드로 전환"
@@ -99,9 +97,7 @@ function App() {
       <button
         onClick={toggleTheme}
         className={`p-2 rounded-lg transition-colors ${
-          isDarkMode
-            ? "bg-gray-700 hover:bg-gray-600"
-            : "bg-gray-200 hover:bg-gray-300"
+          isDarkMode ? "hover:bg-gray-600" : "hover:bg-gray-300"
         }`}
         aria-label={isDarkMode ? "라이트 모드로 전환" : "다크 모드로 전환"}
       >
@@ -138,9 +134,7 @@ function App() {
             <button
               onClick={toggleClockMode}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                isDarkMode
-                  ? "bg-gray-700 hover:bg-gray-600"
-                  : "bg-gray-200 hover:bg-gray-300"
+                isDarkMode ? " hover:bg-gray-600" : " hover:bg-gray-300"
               }`}
               aria-label={
                 clockMode === "analog"
@@ -153,9 +147,7 @@ function App() {
             <button
               onClick={toggleTheme}
               className={`p-3 rounded-lg transition-colors ${
-                isDarkMode
-                  ? "bg-gray-700 hover:bg-gray-600"
-                  : "bg-gray-200 hover:bg-gray-300"
+                isDarkMode ? " hover:bg-gray-600" : " hover:bg-gray-300"
               }`}
               aria-label={
                 isDarkMode ? "라이트 모드로 전환" : "다크 모드로 전환"
