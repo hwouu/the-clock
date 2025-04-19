@@ -174,6 +174,13 @@ function App() {
           )}
         </div>
 
+        {/* 구분선 추가 */}
+        <div
+          className={`border-t ${
+            isDarkMode ? "border-gray-700" : "border-gray-300"
+          } `}
+        />
+
         {/* 날씨 및 위치 정보 */}
         <WeatherDisplay
           weather={weather}
