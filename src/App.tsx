@@ -1,5 +1,5 @@
 // src/App.tsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Sun, Moon, Clock } from "lucide-react";
 import AnalogClock from "./components/clock/AnalogClock";
 import DigitalClock from "./components/clock/DigitalClock";
@@ -20,6 +20,7 @@ function App() {
   });
 
   const [isMobile, setIsMobile] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -39,7 +40,7 @@ function App() {
 
   const time = useTime();
   const { theme, toggleTheme } = useTheme();
-  const { weather, location } = useWeather();
+  const { weather, location, error, isLoading, refreshWeather } = useWeather();
 
   // 모드가 변경될 때마다 로컬 스토리지에 저장
   useEffect(() => {
@@ -52,6 +53,19 @@ function App() {
       return newMode;
     });
   };
+
+  const handleRefreshWeather = useCallback(async () => {
+    if (refreshing || isLoading) return;
+
+    setRefreshing(true);
+    try {
+      await refreshWeather();
+    } catch (err) {
+      console.error("Error refreshing weather:", err);
+    } finally {
+      setRefreshing(false);
+    }
+  }, [refreshing, isLoading, refreshWeather]);
 
   const isDarkMode = theme === "dark";
 
@@ -102,7 +116,7 @@ function App() {
 
   return (
     <div
-      className={`min-h-screen flex flex-col items-center justify-center p-4 ${
+      className={`min-h-screen flex flex-col items-center justify-center p-4 transition-colors duration-300 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
@@ -110,7 +124,7 @@ function App() {
       <MobileTitle />
 
       <div
-        className={`w-full max-w-2xl p-6 sm:p-8 rounded-xl shadow-lg ${
+        className={`w-full max-w-2xl p-6 sm:p-8 rounded-xl shadow-lg transition-colors duration-300 ${
           isDarkMode ? "bg-gray-800" : "bg-gray-100"
         }`}
       >
@@ -174,7 +188,19 @@ function App() {
           location={location}
           isDarkMode={isDarkMode}
           date={time.date}
+          error={error}
+          isLoading={isLoading || refreshing}
+          onRefresh={handleRefreshWeather}
         />
+      </div>
+
+      {/* Attribution */}
+      <div
+        className={`mt-4 text-xs ${
+          isDarkMode ? "text-gray-400" : "text-gray-500"
+        }`}
+      >
+        Weather data provided by OpenWeatherMap
       </div>
     </div>
   );

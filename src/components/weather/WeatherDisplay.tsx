@@ -1,6 +1,6 @@
 // src/components/weather/WeatherDisplay.tsx
 import React, { useEffect, useState } from "react";
-import { MapPin, CalendarClock } from "lucide-react";
+import { MapPin, CalendarClock, RefreshCw, AlertTriangle } from "lucide-react";
 import { WeatherData } from "../../types/clock";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -10,6 +10,9 @@ interface WeatherDisplayProps {
   location: string;
   isDarkMode: boolean;
   date: Date;
+  error?: string | null;
+  isLoading?: boolean;
+  onRefresh?: () => void;
 }
 
 const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
@@ -17,6 +20,9 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
   location,
   isDarkMode,
   date,
+  error,
+  isLoading,
+  onRefresh,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -75,12 +81,57 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
           </span>
         </div>
         <div className="flex items-center">
-          <span className={`mr-2 ${getWeatherIconSize()}`}>{weather.icon}</span>
+          {isLoading ? (
+            <RefreshCw
+              className={`mr-2 ${
+                isMobile ? "w-3.5 h-3.5" : "w-4 h-4"
+              } animate-spin ${isDarkMode ? "text-gray-300" : "text-gray-500"}`}
+            />
+          ) : error ? (
+            <AlertTriangle
+              className={`mr-2 ${isMobile ? "w-3.5 h-3.5" : "w-4 h-4"} ${
+                isDarkMode ? "text-yellow-300" : "text-yellow-500"
+              }`}
+            />
+          ) : (
+            <span className={`mr-2 ${getWeatherIconSize()}`}>
+              {weather.icon}
+            </span>
+          )}
           <span className={`${isMobile ? "text-sm" : "text-base"} font-medium`}>
             {weather.temp} | {weather.condition}
           </span>
+          {onRefresh && (
+            <button
+              onClick={onRefresh}
+              className={`ml-2 p-1 rounded-full ${
+                isDarkMode ? "hover:bg-gray-600" : "hover:bg-gray-200"
+              } transition-colors ${
+                isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={isLoading}
+              aria-label="날씨 새로고침"
+            >
+              <RefreshCw
+                className={`${isMobile ? "w-3 h-3" : "w-3.5 h-3.5"} ${
+                  isDarkMode ? "text-gray-300" : "text-gray-500"
+                }`}
+              />
+            </button>
+          )}
         </div>
       </div>
+
+      {error && (
+        <div
+          className={`${isMobile ? "text-xs" : "text-sm"} ${
+            isDarkMode ? "text-red-300" : "text-red-500"
+          } mb-2`}
+        >
+          {error}
+        </div>
+      )}
+
       <div
         className={`flex items-center space-x-2 ${
           isMobile ? "text-xs mt-2" : "text-sm"
