@@ -2,8 +2,11 @@
 
 이 프로젝트는 React, TypeScript, 그리고 Tailwind CSS를 사용하여 만든 모던한 웹 시계 애플리케이션입니다. OpenWeatherMap API를 활용해 실시간 날씨 정보를 제공합니다.
 
-<img width="1795" alt="image" src="https://github.com/user-attachments/assets/1d414d99-2594-4156-9557-57dc4ef61da8" />
-<img width="1798" alt="image" src="https://github.com/user-attachments/assets/ae400660-756c-48b5-a1ec-39cc500e376d" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1d414d99-2594-4156-9557-57dc4ef61da8" width="48%" />
+  <img src="https://github.com/user-attachments/assets/ae400660-756c-48b5-a1ec-39cc500e376d" width="48%" />
+</p>
+
 
 
 ## 주요 기능
