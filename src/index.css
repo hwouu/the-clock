@@ -1,3 +1,4 @@
+/* src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,7 +25,7 @@ body {
   width: 100%;
 }
 
-/* Clock animations */
+/* 시계 애니메이션 */
 @keyframes pulse {
   0%,
   100% {
@@ -39,15 +40,94 @@ body {
   animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Ensure proper dark mode transition */
+/* 다크 모드 색상 전체 덮어쓰기 */
 .dark {
   color-scheme: dark;
 }
 
-/* Transition for theme changes */
+/* 배경 및 컴포넌트 전체 다크 모드 색상 통일 */
+.bg-gray-900 {
+  background-color: #0d1117 !important; /* 메인 배경 */
+}
+
+.bg-gray-800 {
+  background-color: #161b22 !important; /* 컴포넌트 배경 */
+}
+
+.bg-gray-700 {
+  background-color: #21262d !important; /* 상승된 컴포넌트 배경 */
+}
+
+/* 12시 위치의 톱니바퀴/아이콘과 회색 점 제거 */
+.absolute.w-1\.5.h-5.bg-gray-300,
+.absolute.w-1\.5.h-5.bg-gray-600,
+div[style*="rotate(0deg)"],
+div.absolute.w-0\.5.h-2\.5.bg-gray-300,
+div.absolute.w-0\.5.h-2\.5.bg-gray-400,
+div.absolute.w-0\.5.h-2\.5.bg-gray-500,
+div[class*="absolute w-0.5 h-2.5"],
+div[class*="absolute w-0.5 h-2"],
+div.absolute.w-0\.5.h-2\.5[style*="rotate(0deg)"] {
+  display: none !important;
+}
+
+/* 12시 방향의 여백 제거를 위한 추가 선택자 */
+div[class*="absolute"][style*="top: 0%"],
+div[class*="absolute"][style*="top: 5%"],
+div[class*="absolute"][style*="top: 6%"] {
+  display: none !important;
+}
+
+/* body 태그에도 다크 모드 배경색 적용 */
+body {
+  background-color: #0d1117;
+}
+
+/* 트랜지션 효과 */
 * {
   transition-property: color, background-color, border-color,
     text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+/* PC 버전 디지털 시계 숫자 크기 조정 */
+@media (min-width: 641px) {
+  .digital-time {
+    font-size: 5rem !important;
+    line-height: 5.5rem !important;
+  }
+
+  .digital-date {
+    font-size: 1.25rem !important;
+    margin-top: 1rem !important;
+  }
+}
+
+/* 모바일 미디어 쿼리 */
+@media (max-width: 640px) {
+  /* 모바일에서 패딩과 마진 축소 */
+  .p-8 {
+    padding: 1rem !important;
+  }
+
+  .mb-8 {
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* 모바일에서는 컨테이너 너비를 최대화 */
+  .max-w-2xl {
+    max-width: 100% !important;
+  }
+
+  /* 디지털 숫자 한 줄에 표시되도록 폰트 크기 조정 */
+  .digital-time {
+    font-size: 2.25rem !important;
+    line-height: 2.5rem !important;
+  }
+
+  .digital-date {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+  }
 }
