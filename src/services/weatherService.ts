@@ -4,6 +4,9 @@ import { WeatherData } from "../types/clock";
 // API key from environment variables
 const API_KEY = import.meta.env.VITE_OPENWEATHERMAP_API_KEY || "YOUR_API_KEY";
 
+// 콘솔에 API 키가 올바르게 로드되었는지 확인하기 위한 로그 추가
+console.log("API Key loaded:", API_KEY ? "Yes (hidden for security)" : "No");
+
 // Check if API key is valid
 if (!API_KEY || API_KEY === "YOUR_API_KEY") {
   console.warn(
