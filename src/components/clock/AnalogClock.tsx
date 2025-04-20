@@ -11,10 +11,13 @@ interface AnalogClockProps {
 
 const AnalogClock: React.FC<AnalogClockProps> = ({ time, isDarkMode }) => {
   const [clockSize, setClockSize] = useState(300);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const updateClockSize = () => {
-      setClockSize(window.innerWidth < 640 ? 250 : 300);
+      const mobile = window.innerWidth < 640;
+      setIsMobile(mobile);
+      setClockSize(mobile ? 220 : 300);
     };
     updateClockSize();
     window.addEventListener("resize", updateClockSize);
@@ -46,7 +49,7 @@ const AnalogClock: React.FC<AnalogClockProps> = ({ time, isDarkMode }) => {
         style={{
           width: `${clockSize}px`,
           height: `${clockSize}px`,
-          paddingBottom: "1.5rem", // 시계 컴포넌트 자체 하단 여백 추가
+          paddingBottom: isMobile ? "0" : "1.5rem",
         }}
       >
         <div
@@ -162,7 +165,7 @@ const AnalogClock: React.FC<AnalogClockProps> = ({ time, isDarkMode }) => {
       <div
         className={`font-medium ${clockSize < 300 ? "text-sm" : "text-xl"} ${
           isDarkMode ? "text-gray-200" : "text-gray-800"
-        } mt-8`}
+        } mt-4`}
       >
         {formatDate(time.date)}
       </div>

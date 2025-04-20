@@ -37,11 +37,11 @@ const DigitalClock: React.FC<DigitalClockProps> = ({ time }) => {
   };
 
   return (
-    <div className="text-center p-4 rounded-lg">
+    <div className={`text-center ${isMobile ? "p-2" : "p-4"} rounded-lg`}>
       <div
-        className={`digital-time font-mono font-bold tracking-wider mb-4 ${
-          isMobile ? "text-4xl" : "text-7xl"
-        }`}
+        className={`digital-time font-mono font-bold tracking-wider ${
+          isMobile ? "mb-2" : "mb-4"
+        } ${isMobile ? "text-4xl" : "text-7xl"}`}
       >
         <span className="transition-all duration-300 inline-block min-w-12 text-center">
           {formatTimeUnit(time.hours)}
@@ -57,9 +57,9 @@ const DigitalClock: React.FC<DigitalClockProps> = ({ time }) => {
       </div>
 
       <div
-        className={`digital-date ${
-          isMobile ? "text-sm" : "text-xl"
-        } mt-2 font-medium`}
+        className={`digital-date ${isMobile ? "text-sm" : "text-xl"} ${
+          isMobile ? "mt-1" : "mt-2"
+        } font-medium`}
       >
         {formatDate(time.date)}
       </div>
