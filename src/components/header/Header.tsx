@@ -5,7 +5,6 @@ import { useTheme } from "../../context/ThemeContext"; // 경로 업데이트
 import { ClockMode } from "../../types/clock";
 import { useTimerStore } from "../../store/timerStore";
 import { useMemoStore } from "../../store/memoStore";
-import TimerDisplay from "../timer/TimerDisplay";
 import TimerModal from "../timer/TimerModal";
 import MemoModal from "../memo/MemoModal";
 import { useEffect, useState } from "react";
@@ -22,11 +21,8 @@ const Header = ({
   hideLogo = false,
 }: HeaderProps) => {
   const { isDarkMode, toggleTheme } = useTheme(); // isDarkMode 직접 사용
-  const {
-    activeTimer,
-    openModal: openTimerModal,
-    isModalOpen: isTimerModalOpen,
-  } = useTimerStore();
+  const { openModal: openTimerModal, isModalOpen: isTimerModalOpen } =
+    useTimerStore();
   const { openModal: openMemoModal, isModalOpen: isMemoModalOpen } =
     useMemoStore();
 
@@ -81,9 +77,6 @@ const Header = ({
             isMobile ? "w-full justify-around" : "space-x-4 ml-auto"
           }`}
         >
-          {/* 타이머 표시 영역 */}
-          {activeTimer && <TimerDisplay />}
-
           <Link
             to="/about"
             className={`p-2 rounded-full hover:bg-opacity-20 ${
