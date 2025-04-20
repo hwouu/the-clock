@@ -32,6 +32,9 @@ function App() {
 
   const { isDarkMode, toggleTheme } = useTheme(); // isDarkMode 직접 사용
   const location = useLocation();
+  
+  // Check if the current page is the About page to hide header
+  const isAboutPage = location.pathname === "/about";
 
   // toggleClockMode 함수 정의
   const toggleClockMode = () => {
@@ -144,11 +147,14 @@ function App() {
           </div>
         )}
 
-        <Header
-          clockMode={clockMode}
-          toggleClockMode={toggleClockMode}
-          hideLogo={isMobile && isMainPage}
-        />
+        {/* Only show header if not on AboutPage */}
+        {!isAboutPage && (
+          <Header
+            clockMode={clockMode}
+            toggleClockMode={toggleClockMode}
+            hideLogo={isMobile && isMainPage}
+          />
+        )}
         <main className="animate-fadeIn">
           <Outlet context={{ clockMode, toggleClockMode }} />
         </main>
