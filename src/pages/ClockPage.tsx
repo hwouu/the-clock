@@ -58,12 +58,18 @@ const ClockPage = () => {
   return (
     <div className="flex flex-col items-center transition-colors duration-300">
       <div
-        className={`w-full p-5 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ${
+        className={`w-full ${
+          isMobile ? "p-4 mt-2" : "p-5 sm:p-6 mt-2"
+        } rounded-xl shadow-lg transition-all duration-300 ${
           isDarkMode ? "bg-gray-800" : "bg-white"
         }`}
       >
         {/* 시계 표시 */}
-        <div className="mb-5 flex justify-center items-center">
+        <div
+          className={`${
+            isMobile ? "mb-4" : "mb-5"
+          } flex justify-center items-center`}
+        >
           {clockMode === "analog" ? (
             <AnalogClock time={time} isDarkMode={isDarkMode} />
           ) : (
