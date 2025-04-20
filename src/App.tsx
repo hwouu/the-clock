@@ -48,13 +48,36 @@ function App() {
       location.pathname === "/about" ? "About | The Clock" : "The Clock";
   }, [location]);
 
+  // 메인 페이지에서만 스크롤 제한
+  const isMainPage = location.pathname === "/";
+
+  // HTML과 BODY 요소에 스크롤 제한 클래스 적용
+  useEffect(() => {
+    const htmlElement = document.documentElement;
+    const bodyElement = document.body;
+
+    if (isMainPage) {
+      htmlElement.classList.add("no-scroll");
+      bodyElement.classList.add("no-scroll");
+    } else {
+      htmlElement.classList.remove("no-scroll");
+      bodyElement.classList.remove("no-scroll");
+    }
+
+    // 컴포넌트 언마운트 시 클래스 제거
+    return () => {
+      htmlElement.classList.remove("no-scroll");
+      bodyElement.classList.remove("no-scroll");
+    };
+  }, [isMainPage]);
+
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${
+      className={`min-h-screen flex justify-center items-center transition-colors duration-300 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
-      }`}
+      } ${isMainPage ? "overflow-hidden" : ""}`}
     >
-      <div className="container mx-auto px-4 py-8 transition-colors duration-300">
+      <div className="container max-w-4xl px-4 py-8 transition-colors duration-300">
         <Header clockMode={clockMode} toggleClockMode={toggleClockMode} />
         <main className="animate-fadeIn">
           <Outlet context={{ clockMode, toggleClockMode }} />
