@@ -58,7 +58,7 @@ const ClockPage = () => {
   return (
     <div className="flex flex-col items-center transition-colors duration-300">
       <div
-        className={`w-full p-6 sm:p-8 rounded-xl shadow-lg transition-all duration-300 ${
+        className={`w-full p-5 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ${
           isDarkMode ? "bg-gray-800" : "bg-white"
         }`}
       >

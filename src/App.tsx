@@ -73,11 +73,11 @@ function App() {
 
   return (
     <div
-      className={`min-h-screen flex justify-center items-center transition-colors duration-300 ${
+      className={`min-h-screen flex justify-center items-start mt-64 transition-colors duration-300 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
       } ${isMainPage ? "overflow-hidden" : ""}`}
     >
-      <div className="container max-w-4xl px-4 py-8 transition-colors duration-300">
+      <div className="container max-w-4xl px-4 py-4 transition-colors duration-300">
         <Header clockMode={clockMode} toggleClockMode={toggleClockMode} />
         <main className="animate-fadeIn">
           <Outlet context={{ clockMode, toggleClockMode }} />
