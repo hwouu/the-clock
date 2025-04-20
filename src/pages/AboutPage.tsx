@@ -1,6 +1,7 @@
 // src/pages/AboutPage.tsx
 import React from "react";
 import { useTheme } from "../context/ThemeContext";
+import { Link } from "react-router-dom";
 import {
   Clock,
   Sun,
@@ -25,23 +26,25 @@ const AboutPage = () => {
         }`}
       >
         {/* Hero Section */}
-        <div
-          className={`w-full p-4 md:p-8 ${
-            isDarkMode ? "bg-gray-700" : "bg-blue-50"
-          } flex flex-col items-center justify-center`}
-        >
-          <Clock
-            className={`w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 ${
-              isDarkMode ? "text-blue-400" : "text-blue-600"
-            }`}
-          />
-          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-center">
-            The Clock
-          </h1>
-          <p className="text-center text-base md:text-lg max-w-2xl mx-auto">
-            Modenr Web Clock Application
-          </p>
-        </div>
+        <Link to="/">
+          <div
+            className={`w-full p-4 md:p-8 ${
+              isDarkMode ? "bg-gray-700" : "bg-blue-50"
+            } flex flex-col items-center justify-center cursor-pointer hover:opacity-90 transition-opacity`}
+          >
+            <Clock
+              className={`w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 ${
+                isDarkMode ? "text-blue-400" : "text-blue-600"
+              }`}
+            />
+            <h1 className="text-2xl md:text-3xl font-bold mb-2 text-center">
+              The Clock
+            </h1>
+            <p className="text-center text-base md:text-lg max-w-2xl mx-auto">
+              Modenr Web Clock Application
+            </p>
+          </div>
+        </Link>
 
         {/* Content Section */}
         <div className="p-4 md:p-8">

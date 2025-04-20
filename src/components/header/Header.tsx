@@ -1,5 +1,5 @@
 // src/components/header/Header.tsx
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Sun, Moon, Info, Timer, StickyNote, ClockFading } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext"; // 경로 업데이트
 import { ClockMode } from "../../types/clock";
@@ -33,6 +33,10 @@ const Header = ({
   // 모바일 여부 확인을 위한 상태
   const [isMobile, setIsMobile] = useState(false);
 
+  // 현재 경로 확인
+  const location = useLocation();
+  const isAboutPage = location.pathname === "/about";
+
   // 모바일 감지
   useEffect(() => {
     const checkIsMobile = () => {
@@ -51,25 +55,32 @@ const Header = ({
     };
   }, []);
 
+  // 로고를 숨길지 여부 결정 (메인 페이지에서 모바일 또는 About 페이지에서 모바일일 때)
+  const shouldHideLogo = hideLogo || (isMobile && isAboutPage);
+
   return (
     <>
       <header
-        className={`py-3 md:py-4 px-4 md:px-6 ${
+        className={`py-3 px-5 md:px-6 ${
           isMobile ? "mb-3" : "mb-6"
-        } rounded-xl flex items-center justify-between transition-colors ${
+        } rounded-xl flex items-center transition-colors ${
           isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
         } shadow-md`}
       >
-        {!hideLogo && (
+        {!shouldHideLogo && (
           <Link to="/" className="flex items-center gap-3">
             <h1 className="text-xl font-bold">The Clock</h1>
           </Link>
         )}
 
         {/* If logo is hidden, use an empty div to maintain the space */}
-        {hideLogo && <div></div>}
+        {shouldHideLogo && <div></div>}
 
-        <div className="flex items-center space-x-2 sm:space-x-4">
+        <div
+          className={`flex items-center ${
+            isMobile ? "w-full justify-around" : "space-x-4 ml-auto"
+          }`}
+        >
           {/* 타이머 표시 영역 */}
           {activeTimer && <TimerDisplay />}
 
