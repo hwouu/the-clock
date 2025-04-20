@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://the-clock-sandy.vercel.app/sitemap.xml 
+Sitemap: https://theclock.my/sitemap.xml 
