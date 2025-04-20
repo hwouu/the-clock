@@ -6,13 +6,6 @@
 }
 
 /* 메인 페이지에서 스크롤 제한을 위한 스타일 */
-html.no-scroll,
-body.no-scroll {
-  height: 100%;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-}
 
 .logo {
   height: 6em;
