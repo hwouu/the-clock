@@ -40,9 +40,6 @@ const AboutPage = () => {
             <h1 className="text-2xl md:text-3xl font-bold mb-2 text-center">
               The Clock
             </h1>
-            <p className="text-center text-base md:text-lg max-w-2xl mx-auto">
-              Modenr Web Clock Application
-            </p>
           </div>
         </Link>
 
@@ -57,18 +54,15 @@ const AboutPage = () => {
               >
                 <Code className="w-5 h-5 md:w-6 md:h-6" />
               </span>
-              프로젝트 소개
+              앱 소개
             </h2>
             <div
               className={`p-4 md:p-6 rounded-lg ${
                 isDarkMode ? "bg-gray-700/50" : "bg-gray-50"
               }`}
             >
-              <p className="mb-4 leading-relaxed text-sm md:text-base">
-                이 프로젝트는 React, TypeScript, 그리고 Tailwind CSS를 사용하여
-                만든 모던한 웹 시계 애플리케이션입니다. OpenWeatherMap API를
-                활용해 실시간 날씨 정보를 제공하며, 사용자 친화적인 인터페이스로
-                다양한 기능을 제공합니다.
+              <p className="leading-relaxed text-sm md:text-base text-left">
+                이 앱은 React, TypeScript, 그리고 Tailwind CSS를 사용하여 만든 모던한 웹 시계 애플리케이션입니다.
               </p>
             </div>
           </section>
