@@ -37,20 +37,20 @@ const DigitalClock: React.FC<DigitalClockProps> = ({ time }) => {
   };
 
   return (
-    <div className={`text-center ${isMobile ? "p-2" : "p-4"} rounded-lg`}>
+    <div className={`text-center ${isMobile ? "p-3" : "p-6"} rounded-lg`}>
       <div
         className={`digital-time font-mono font-bold tracking-wider ${
-          isMobile ? "mb-2" : "mb-4"
+          isMobile ? "mb-3" : "mb-6"
         } ${isMobile ? "text-4xl" : "text-7xl"}`}
       >
         <span className="transition-all duration-300 inline-block min-w-12 text-center">
           {formatTimeUnit(time.hours)}
         </span>
-        <span className="mx-1 animate-pulse">:</span>
+        <span className="mx-2 animate-pulse">:</span>
         <span className="transition-all duration-300 inline-block min-w-12 text-center">
           {formatTimeUnit(time.minutes)}
         </span>
-        <span className="mx-1 animate-pulse">:</span>
+        <span className="mx-2 animate-pulse">:</span>
         <span className="transition-all duration-300 inline-block min-w-12 text-center">
           {formatTimeUnit(time.seconds)}
         </span>
@@ -58,7 +58,7 @@ const DigitalClock: React.FC<DigitalClockProps> = ({ time }) => {
 
       <div
         className={`digital-date ${isMobile ? "text-sm" : "text-xl"} ${
-          isMobile ? "mt-1" : "mt-2"
+          isMobile ? "mt-2" : "mt-3"
         } font-medium`}
       >
         {formatDate(time.date)}
