@@ -104,10 +104,10 @@ function App() {
         >
           <h3 className="font-bold mb-2">키보드 단축키</h3>
           <ul className="text-sm space-y-1">
-            <li>Cmd/Ctrl + M: 시계 모드 전환</li>
+            <li>Cmd/Ctrl + B: 시계 모드 전환</li>
             <li>Cmd/Ctrl + D: 다크/라이트 모드 전환</li>
-            <li>Cmd/Ctrl + T: 타이머 열기</li>
-            <li>Cmd/Ctrl + N: 새 메모 작성</li>
+            <li>Cmd/Ctrl + I: 타이머 열기</li>
+            <li>Cmd/Ctrl + K: 새 메모 작성</li>
           </ul>
           <button
             className="mt-3 text-xs text-blue-500 hover:underline"

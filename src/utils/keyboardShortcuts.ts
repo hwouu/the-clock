@@ -26,15 +26,15 @@ export const useKeyboardShortcuts = ({
             event.preventDefault();
             toggleTheme();
             break;
-          case "m": // 시계 모드 전환 (아날로그/디지털)
+          case "b": // 시계 모드 전환 (아날로그/디지털)
             event.preventDefault();
             toggleClockMode();
             break;
-          case "t": // 타이머 열기
+          case "i": // 타이머 열기
             event.preventDefault();
             openTimerModal();
             break;
-          case "n": // 새 메모 열기
+          case "k": // 새 메모 열기
             event.preventDefault();
             openMemoModal();
             break;
