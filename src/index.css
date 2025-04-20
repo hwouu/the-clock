@@ -18,11 +18,29 @@ body {
   padding: 0;
   height: 100%;
   width: 100%;
+  transition-property: color, background-color, border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+body {
+  background-color: transparent;
+}
+
+.dark body {
+  background-color: #0d1117;
+}
+
+body:not(.dark) {
+  background-color: #f9fafb;
 }
 
 #root {
   height: 100%;
   width: 100%;
+  transition-property: color, background-color, border-color;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 시계 애니메이션 */
@@ -46,15 +64,18 @@ body {
 }
 
 /* 배경 및 컴포넌트 전체 다크 모드 색상 통일 */
-.bg-gray-900 {
+.dark .bg-gray-900,
+.dark.bg-gray-900 {
   background-color: #0d1117 !important; /* 메인 배경 */
 }
 
-.bg-gray-800 {
+.dark .bg-gray-800,
+.dark.bg-gray-800 {
   background-color: #161b22 !important; /* 컴포넌트 배경 */
 }
 
-.bg-gray-700 {
+.dark .bg-gray-700,
+.dark.bg-gray-700 {
   background-color: #21262d !important; /* 상승된 컴포넌트 배경 */
 }
 
@@ -78,17 +99,30 @@ div[class*="absolute"][style*="top: 6%"] {
   display: none !important;
 }
 
-/* body 태그에도 다크 모드 배경색 적용 */
-body {
-  background-color: #0d1117;
-}
-
 /* 트랜지션 효과 */
 * {
   transition-property: color, background-color, border-color,
     text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+/* 테마 전환을 위한 글로벌 클래스 */
+.theme-transition {
+  transition-property: background-color, color, border-color, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 테마 전환이 필요한 주요 요소에 적용할 클래스 */
+.header,
+.clock-container,
+.weather-display,
+.main-content,
+.modal,
+.memo-item,
+.timer-display {
+  @apply theme-transition;
 }
 
 /* PC 버전 디지털 시계 숫자 크기 조정 */
