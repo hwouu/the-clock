@@ -1,19 +1,23 @@
-# The Clock
+# The Clock - 모던한 웹 시계 애플리케이션
 
 이 프로젝트는 React, TypeScript, 그리고 Tailwind CSS를 사용하여 만든 모던한 웹 시계 애플리케이션입니다. 다양한 기능과 반응형 디자인을 갖추고 있으며, 지속적으로 업데이트되고 있습니다.
+
+![The Clock Preview](https://github.com/user-attachments/assets/1d414d99-2594-4156-9557-57dc4ef61da8)
+
+🔗 [라이브 데모 보기](https://the-clock-sandy.vercel.app/)
 
 ## PC 버전
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/1d414d99-2594-4156-9557-57dc4ef61da8" width="48%" />
-  <img src="https://github.com/user-attachments/assets/ae400660-756c-48b5-a1ec-39cc500e376d" width="48%" />
+  <img src="https://github.com/user-attachments/assets/1d414d99-2594-4156-9557-57dc4ef61da8" width="48%" alt="The Clock PC 버전 - 다크 모드" />
+  <img src="https://github.com/user-attachments/assets/ae400660-756c-48b5-a1ec-39cc500e376d" width="48%" alt="The Clock PC 버전 - 라이트 모드" />
 </p>
 
 ## 모바일 버전
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f91ff685-ef13-4d92-803e-c7a96d575f2d" width="48%" />
-  <img src="https://github.com/user-attachments/assets/c3e8b5a9-d649-424c-a018-21b48e93da74" width="48%" />
+  <img src="https://github.com/user-attachments/assets/f91ff685-ef13-4d92-803e-c7a96d575f2d" width="48%" alt="The Clock 모바일 버전 - 다크 모드" />
+  <img src="https://github.com/user-attachments/assets/c3e8b5a9-d649-424c-a018-21b48e93da74" width="48%" alt="The Clock 모바일 버전 - 라이트 모드" />
 </p>
 
 ## 주요 기능
@@ -35,6 +39,7 @@
 - 메모 리스트 마크다운 문법 지원
 - 기능 제안 폼링크 추가
 - 모달 디자인 개선
+- SEO 최적화 개선
 
 ### 2025년 4월 20일
 
@@ -103,7 +108,9 @@ npm run build
 ```
 the-clock/
 ├── public/               # 정적 파일
-│   └── clock-icon.svg    # 파비콘
+│   ├── clock-icon.svg    # 파비콘
+│   ├── robots.txt        # 검색 엔진 크롤링 지침
+│   └── sitemap.xml       # 사이트맵
 ├── src/                  # 소스 코드
 │   ├── components/       # 리액트 컴포넌트
 │   │   ├── clock/        # 시계 관련 컴포넌트

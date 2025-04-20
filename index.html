@@ -6,20 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Modern clock application with analog and digital displays, timers, and memo functionality"
+      content="실시간 시계, 타이머, 메모 기능이 포함된 모던한 웹 시계 애플리케이션. 아날로그와 디지털 시계 디스플레이, 날씨 정보 등 다양한 기능을 제공합니다."
     />
     <meta
       name="keywords"
-      content="clock, timer, memo, weather, react, typescript, tailwind"
+      content="시계, 타이머, 메모, 날씨, 아날로그시계, 디지털시계, 리액트, 타입스크립트, 테일윈드"
     />
-    <meta name="author" content="Your Name" />
+    <meta name="author" content="Hyunwoo Roh" />
     <meta name="theme-color" content="#1f2937" />
+    <meta name="robots" content="index, follow" />
+    <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
+    <link rel="canonical" href="https://the-clock-sandy.vercel.app/" />
 
     <!-- 🔹 Open Graph metadata for link previews -->
-    <meta property="og:title" content="The Clock" />
+    <meta
+      property="og:title"
+      content="The Clock - 모던한 웹 시계 애플리케이션"
+    />
     <meta
       property="og:description"
-      content="Modern clock application with analog and digital displays, timers, and memo functionality"
+      content="실시간 시계, 타이머, 메모 기능이 포함된 모던한 웹 시계 애플리케이션. 아날로그와 디지털 시계 디스플레이, 날씨 정보 등 다양한 기능을 제공합니다."
     />
     <meta
       property="og:image"
@@ -27,20 +33,25 @@
     />
     <meta property="og:url" content="https://the-clock-sandy.vercel.app/" />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="The Clock" />
 
     <!-- 🔹 Twitter Card metadata -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="The Clock" />
+    <meta
+      name="twitter:title"
+      content="The Clock - 모던한 웹 시계 애플리케이션"
+    />
     <meta
       name="twitter:description"
-      content="Modern clock application with analog and digital displays, timers, and memo functionality"
+      content="실시간 시계, 타이머, 메모 기능이 포함된 모던한 웹 시계 애플리케이션. 아날로그와 디지털 시계 디스플레이, 날씨 정보 등 다양한 기능을 제공합니다."
     />
     <meta
       name="twitter:image"
       content="https://the-clock-sandy.vercel.app/clock-preview.png"
     />
 
-    <title>The Clock</title>
+    <title>The Clock - 모던한 웹 시계 애플리케이션</title>
 
     <!-- Google Fonts: For better typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,6 +60,54 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Schema.org 구조화된 데이터 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "The Clock",
+        "url": "https://the-clock-sandy.vercel.app/",
+        "description": "실시간 시계, 타이머, 메모 기능이 포함된 모던한 웹 시계 애플리케이션",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "screenshot": "https://the-clock-sandy.vercel.app/clock-preview.png",
+        "softwareVersion": "1.0.0",
+        "author": {
+          "@type": "Person",
+          "name": "Hyunwoo Roh",
+          "email": "nhw3990@gmail.com"
+        },
+        "featureList": [
+          "아날로그/디지털 시계 전환",
+          "다크 모드/라이트 모드",
+          "실시간 시간 표시",
+          "실시간 위치 및 날씨 정보",
+          "타이머 기능",
+          "메모 기능",
+          "반응형 디자인"
+        ]
+      }
+    </script>
+
+    <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-XXXXXXXXXX");
+    </script>
   </head>
   <body>
     <div id="root"></div>
