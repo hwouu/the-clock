@@ -1,9 +1,8 @@
 // src/pages/AboutPage.tsx
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../context/ThemeContext";
 
 const AboutPage = () => {
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { isDarkMode } = useTheme();
 
   return (
     <div className="min-h-screen py-8 px-4 sm:px-6">

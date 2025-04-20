@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./components/header/Header";
 import MemoList from "./components/memo/MemoList";
-import { useTheme } from "./hooks/useTheme";
+import { useTheme } from "./context/ThemeContext"; // 경로 업데이트
 import { useKeyboardShortcuts } from "./utils/keyboardShortcuts";
 import { ClockMode } from "./types/clock";
 import "./App.css";
@@ -23,9 +23,8 @@ function App() {
     localStorage.getItem("shortcuts-viewed") !== "true"
   );
 
-  const { theme, toggleTheme } = useTheme();
+  const { isDarkMode, toggleTheme } = useTheme(); // isDarkMode 직접 사용
   const location = useLocation();
-  const isDarkMode = theme === "dark";
 
   // toggleClockMode 함수 정의
   const toggleClockMode = () => {
@@ -51,11 +50,11 @@ function App() {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-500 ${
+      className={`min-h-screen transition-colors duration-300 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
       }`}
     >
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 transition-colors duration-300">
         <Header clockMode={clockMode} toggleClockMode={toggleClockMode} />
         <main className="animate-fadeIn">
           <Outlet context={{ clockMode, toggleClockMode }} />
@@ -68,7 +67,7 @@ function App() {
       {/* 키보드 단축키 안내 (React 상태를 사용하여 관리) */}
       {showShortcutsTip && (
         <div
-          className={`fixed bottom-6 left-6 p-4 rounded-lg shadow-lg max-w-xs ${
+          className={`fixed bottom-6 left-6 p-4 rounded-lg shadow-lg max-w-xs theme-transition ${
             isDarkMode ? "bg-gray-800" : "bg-white"
           }`}
         >

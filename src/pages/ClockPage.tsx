@@ -5,7 +5,7 @@ import DigitalClock from "../components/clock/DigitalClock";
 import WeatherDisplay from "../components/weather/WeatherDisplay";
 import { ClockMode } from "../types/clock";
 import { useTime } from "../hooks/useTime";
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../context/ThemeContext"; // 경로 업데이트
 import { useWeather } from "../hooks/useWeather";
 
 const ClockPage = () => {
@@ -38,7 +38,7 @@ const ClockPage = () => {
   }, []);
 
   const time = useTime();
-  const { theme } = useTheme();
+  const { isDarkMode } = useTheme(); // isDarkMode 직접 사용
   const { weather, location, error, isLoading, refreshWeather } = useWeather();
 
   // 모드가 변경될 때마다 로컬 스토리지에 저장
@@ -66,13 +66,11 @@ const ClockPage = () => {
     }
   }, [refreshing, isLoading, refreshWeather]);
 
-  const isDarkMode = theme === "dark";
-
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 transition-colors duration-300">
       <div
-        className={`w-full max-w-2xl p-6 sm:p-8 rounded-xl shadow-lg transition-colors duration-300 ${
-          isDarkMode ? "bg-gray-800" : "bg-gray-100"
+        className={`w-full max-w-2xl p-6 sm:p-8 rounded-xl shadow-lg transition-all duration-300 ${
+          isDarkMode ? "bg-gray-800" : "bg-white"
         }`}
       >
         {/* 시계 표시 */}
