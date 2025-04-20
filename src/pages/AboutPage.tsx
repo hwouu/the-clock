@@ -9,6 +9,10 @@ import {
   Map,
   LayoutGrid,
   Code,
+  Timer,
+  StickyNote,
+  Github,
+  Mail,
 } from "lucide-react";
 
 const AboutPage = () => {
@@ -32,11 +36,9 @@ const AboutPage = () => {
               isDarkMode ? "text-blue-400" : "text-blue-600"
             }`}
           />
-          <h1 className="text-3xl font-bold mb-2 text-center">
-            The Clock 소개
-          </h1>
+          <h1 className="text-3xl font-bold mb-2 text-center">The Clock</h1>
           <p className="text-center text-lg max-w-2xl mx-auto">
-            모던한 웹 시계 애플리케이션
+            Modenr Web Clock Application
           </p>
         </div>
 
@@ -61,7 +63,8 @@ const AboutPage = () => {
               <p className="mb-4 leading-relaxed">
                 이 프로젝트는 React, TypeScript, 그리고 Tailwind CSS를 사용하여
                 만든 모던한 웹 시계 애플리케이션입니다. OpenWeatherMap API를
-                활용해 실시간 날씨 정보를 제공합니다.
+                활용해 실시간 날씨 정보를 제공하며, 사용자 친화적인 인터페이스로
+                다양한 기능을 제공합니다.
               </p>
             </div>
           </section>
@@ -98,6 +101,12 @@ const AboutPage = () => {
                 <FeatureItem icon={<Map />} title="실시간 위치 및 날씨 정보">
                   OpenWeatherMap API를 사용하여 현재 위치와 날씨 상태를
                   표시합니다.
+                </FeatureItem>
+                <FeatureItem icon={<Timer />} title="타이머 기능">
+                  편리한 타이머 기능으로 시간을 관리할 수 있습니다.
+                </FeatureItem>
+                <FeatureItem icon={<StickyNote />} title="메모 기능">
+                  간단한 메모를 작성하고 관리할 수 있습니다.
                 </FeatureItem>
                 <FeatureItem icon={<LayoutGrid />} title="반응형 디자인">
                   모든 디바이스 화면 크기에 맞게 최적화되어 있습니다.
@@ -141,6 +150,9 @@ const AboutPage = () => {
               <TechItem title="Lucide React">
                 아이콘 컴포넌트 라이브러리
               </TechItem>
+              <TechItem title="Zustand">
+                간결하고 강력한 상태 관리 라이브러리
+              </TechItem>
               <TechItem title="OpenWeatherMap API">
                 실시간 날씨 데이터 제공
               </TechItem>
@@ -173,6 +185,7 @@ const AboutPage = () => {
                     <li>소개 페이지 개선</li>
                     <li>헤더 컴포넌트 추가</li>
                     <li>UI 디자인 현대화</li>
+                    <li>타이머 및 메모 기능 개선</li>
                   </ul>
                 </UpdateItem>
               </div>
@@ -199,18 +212,34 @@ const AboutPage = () => {
               } text-center`}
             >
               <p className="mb-3">
-                문의사항이나 피드백이 있으면 아래 이메일로 연락주세요.
+                문의사항이나 피드백이 있으면 아래 연락처로 연락주세요.
               </p>
-              <a
-                href="mailto:nhw3990@gmail.com"
-                className={`inline-flex items-center px-4 py-2 rounded-md ${
-                  isDarkMode
-                    ? "bg-blue-600 hover:bg-blue-700"
-                    : "bg-blue-500 hover:bg-blue-600"
-                } text-white font-medium transition-colors`}
-              >
-                nhw3990@gmail.com
-              </a>
+              <div className="flex justify-center gap-4 mt-4">
+                <a
+                  href="mailto:nhw3990@gmail.com"
+                  className={`inline-flex items-center px-4 py-2 rounded-md ${
+                    isDarkMode
+                      ? "bg-gray-700 hover:bg-gray-600"
+                      : "bg-gray-200 hover:bg-gray-300"
+                  } font-medium transition-colors`}
+                >
+                  <Mail className="w-5 h-5 mr-2" />
+                  nhw3990@gmail.com
+                </a>
+                <a
+                  href="https://github.com/hwouu/the-clock"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center px-4 py-2 rounded-md ${
+                    isDarkMode
+                      ? "bg-gray-700 hover:bg-gray-600"
+                      : "bg-gray-200 hover:bg-gray-300"
+                  } font-medium transition-colors`}
+                >
+                  <Github className="w-5 h-5 mr-2" />
+                  GitHub
+                </a>
+              </div>
             </div>
           </section>
         </div>
@@ -244,7 +273,7 @@ const FeatureItem = ({
   return (
     <li className="flex items-start">
       <span
-        className={`mr-3 mt-1 p-1.5 rounded-full ${
+        className={`flex-shrink-0 mr-4 mt-1 p-1.5 rounded-full ${
           isDarkMode
             ? "bg-blue-500/20 text-blue-400"
             : "bg-blue-100 text-blue-600"
@@ -254,9 +283,13 @@ const FeatureItem = ({
           className: "w-5 h-5",
         })}
       </span>
-      <div>
-        <h3 className="font-semibold">{title}</h3>
-        <p className={`${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+      <div className="flex-1">
+        <h3 className="font-semibold text-left">{title}</h3>
+        <p
+          className={`${
+            isDarkMode ? "text-gray-300" : "text-gray-600"
+          } text-left mt-1`}
+        >
           {children}
         </p>
       </div>
@@ -307,7 +340,7 @@ const UpdateItem = ({
   const { isDarkMode } = useTheme();
 
   return (
-    <div>
+    <div className="text-left">
       <h3
         className={`text-xl font-semibold ${
           isDarkMode ? "text-blue-400" : "text-blue-600"
