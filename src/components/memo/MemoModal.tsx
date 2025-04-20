@@ -13,6 +13,7 @@ const MemoModal = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [color, setColor] = useState(Object.values(MEMO_COLORS)[0]);
+  const [showMarkdownHelp, setShowMarkdownHelp] = useState(false);
 
   // 편집 모드일 경우 초기값 설정
   useEffect(() => {
@@ -52,7 +53,20 @@ const MemoModal = () => {
     setTitle("");
     setContent("");
     setColor(Object.values(MEMO_COLORS)[0]);
+    setShowMarkdownHelp(false);
   };
+
+  const markdownHelpExamples = [
+    { syntax: "# 제목", description: "큰 제목" },
+    { syntax: "## 제목", description: "중간 제목" },
+    { syntax: "**굵게**", description: "굵은 글씨" },
+    { syntax: "*기울임*", description: "기울임체" },
+    { syntax: "~~취소선~~", description: "취소선" },
+    { syntax: "- 항목", description: "목록" },
+    { syntax: "1. 항목", description: "번호 목록" },
+    { syntax: "`코드`", description: "인라인 코드" },
+    { syntax: "[링크](URL)", description: "링크" },
+  ];
 
   return (
     <Modal
@@ -82,16 +96,49 @@ const MemoModal = () => {
           />
         </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="memo-content"
-            className="block mb-2 text-sm font-medium"
-          >
-            내용
-          </label>
+        <div className="mb-1">
+          <div className="flex justify-between items-center mb-2">
+            <label htmlFor="memo-content" className="block text-sm font-medium">
+              내용
+            </label>
+            <button
+              type="button"
+              onClick={() => setShowMarkdownHelp(!showMarkdownHelp)}
+              className="text-xs text-blue-500 hover:underline"
+            >
+              {showMarkdownHelp ? "마크다운 도움말 닫기" : "마크다운 도움말"}
+            </button>
+          </div>
+
+          {showMarkdownHelp && (
+            <div
+              className={`p-3 mb-3 text-xs rounded-md ${
+                isDarkMode ? "bg-gray-700" : "bg-gray-100"
+              }`}
+            >
+              <p className="mb-2">
+                마크다운 문법을 사용하여 텍스트를 꾸밀 수 있습니다:
+              </p>
+              <div className="grid grid-cols-2 gap-1">
+                {markdownHelpExamples.map((example, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <code
+                      className={`px-1 py-0.5 rounded ${
+                        isDarkMode ? "bg-gray-800" : "bg-gray-200"
+                      }`}
+                    >
+                      {example.syntax}
+                    </code>
+                    <span>{example.description}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <textarea
             id="memo-content"
-            placeholder="메모 내용을 입력하세요"
+            placeholder="메모 내용을 입력하세요 (마크다운 지원)"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={4}

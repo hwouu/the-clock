@@ -5,6 +5,8 @@ import { useMemoStore } from "../../store/memoStore";
 import { useTheme } from "../../context/ThemeContext";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const MemoList = () => {
   const { isDarkMode } = useTheme();
@@ -75,7 +77,58 @@ const MemoList = () => {
                     </button>
                   </div>
                 </div>
-                <p className="text-sm line-clamp-2">{memo.content}</p>
+                <div className="text-sm overflow-y-auto max-h-40 markdown-content">
+                  <div className="prose prose-sm dark:prose-invert max-w-none text-left">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        // Customize heading sizes to be smaller in the memo list
+                        h1: ({ node, ...props }) => (
+                          <h3
+                            className="text-base font-bold mt-1 mb-1 text-left"
+                            {...props}
+                          />
+                        ),
+                        h2: ({ node, ...props }) => (
+                          <h4
+                            className="text-sm font-bold mt-1 mb-1 text-left"
+                            {...props}
+                          />
+                        ),
+                        h3: ({ node, ...props }) => (
+                          <h5
+                            className="text-sm font-semibold mt-1 mb-1 text-left"
+                            {...props}
+                          />
+                        ),
+                        // Customize links to open in new tab and have the right color
+                        a: ({ node, ...props }) => (
+                          <a
+                            className="text-blue-500 hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            {...props}
+                          />
+                        ),
+                        // Make paragraphs compact
+                        p: ({ node, ...props }) => (
+                          <p className="mb-1 mt-1 text-left" {...props} />
+                        ),
+                        // Style code elements
+                        code: ({ node, ...props }) => (
+                          <code
+                            className={`px-1 py-0.5 rounded ${
+                              isDarkMode ? "bg-gray-700" : "bg-gray-200"
+                            }`}
+                            {...props}
+                          />
+                        ),
+                      }}
+                    >
+                      {memo.content}
+                    </ReactMarkdown>
+                  </div>
+                </div>
                 <p
                   className={`text-xs mt-1 ${
                     isDarkMode ? "text-gray-400" : "text-gray-500"
