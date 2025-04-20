@@ -2,11 +2,10 @@
 import { useState } from "react";
 import { useTimerStore } from "../../store/timerStore";
 import Modal from "../ui/Modal";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "../../context/ThemeContext";
 
 const TimerModal = () => {
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { isDarkMode } = useTheme();
   const { isModalOpen, closeModal, addTimer } = useTimerStore();
 
   const [name, setName] = useState("");

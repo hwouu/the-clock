@@ -2,12 +2,11 @@
 import { useState, useEffect } from "react";
 import { useMemoStore } from "../../store/memoStore";
 import Modal from "../ui/Modal";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "../../context/ThemeContext";
 import { MEMO_COLORS } from "../../types/memo";
 
 const MemoModal = () => {
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { isDarkMode } = useTheme();
   const { isModalOpen, closeModal, addMemo, updateMemo, editingMemo } =
     useMemoStore();
 

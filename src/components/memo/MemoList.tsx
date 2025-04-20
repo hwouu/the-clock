@@ -2,13 +2,12 @@
 import { useState } from "react";
 import { Edit, Trash2, X } from "lucide-react";
 import { useMemoStore } from "../../store/memoStore";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "../../context/ThemeContext";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 
 const MemoList = () => {
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { isDarkMode } = useTheme();
   const { memos, removeMemo, openModal } = useMemoStore();
   const [isOpen, setIsOpen] = useState(false);
 

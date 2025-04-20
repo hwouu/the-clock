@@ -2,11 +2,10 @@
 import { useEffect, useCallback } from "react";
 import { Play, Pause, RefreshCw, X } from "lucide-react";
 import { useTimerStore } from "../../store/timerStore";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "../../context/ThemeContext";
 
 const TimerDisplay = () => {
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { isDarkMode } = useTheme();
   const {
     activeTimer,
     startTimer,
