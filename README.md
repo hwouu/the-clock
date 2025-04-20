@@ -4,7 +4,7 @@
 
 ![The Clock Preview](https://github.com/user-attachments/assets/1d414d99-2594-4156-9557-57dc4ef61da8)
 
-🔗 [라이브 데모 보기](https://the-clock-sandy.vercel.app/)
+🔗 [라이브 데모 보기](https://theclock.my/)
 
 ## PC 버전
 
