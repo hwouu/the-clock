@@ -13,6 +13,7 @@ import {
   StickyNote,
   Github,
   Mail,
+  FileQuestion,
 } from "lucide-react";
 
 const AboutPage = () => {
@@ -62,7 +63,8 @@ const AboutPage = () => {
               }`}
             >
               <p className="leading-relaxed text-sm md:text-base text-left">
-                이 앱은 React, TypeScript, 그리고 Tailwind CSS를 사용하여 만든 모던한 웹 시계 애플리케이션입니다.
+                이 앱은 React, TypeScript, 그리고 Tailwind CSS를 사용하여 만든
+                모던한 웹 시계 애플리케이션입니다.
               </p>
             </div>
           </section>
@@ -222,7 +224,20 @@ const AboutPage = () => {
                   } font-medium transition-colors text-sm md:text-base`}
                 >
                   <Mail className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-                  nhw3990@gmail.com
+                  메일 보내기
+                </a>
+                <a
+                  href="https://hwouu.notion.site/1db7a2533c0f80d79ff6cccfbd32f9b0?pvs=105"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center justify-center px-4 py-2 rounded-md ${
+                    isDarkMode
+                      ? "bg-gray-700 hover:bg-gray-600"
+                      : "bg-gray-200 hover:bg-gray-300"
+                  } font-medium transition-colors text-sm md:text-base`}
+                >
+                  <FileQuestion className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                  기능 제안
                 </a>
                 <a
                   href="https://github.com/hwouu/the-clock"
