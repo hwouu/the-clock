@@ -9,15 +9,15 @@
 ## PC 버전
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/1d414d99-2594-4156-9557-57dc4ef61da8" width="48%" alt="The Clock PC 버전 - 다크 모드" />
-  <img src="https://github.com/user-attachments/assets/ae400660-756c-48b5-a1ec-39cc500e376d" width="48%" alt="The Clock PC 버전 - 라이트 모드" />
+  <img src="https://github.com/user-attachments/assets/a9be2478-a664-4c13-929f-39e763e3dad1" width="48%" alt="The Clock PC 버전 - 다크 모드" />
+  <img src="https://github.com/user-attachments/assets/5965ca54-7f1d-482d-86a4-12a643bd67ab" width="48%" alt="The Clock PC 버전 - 라이트 모드" />
 </p>
 
 ## 모바일 버전
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f91ff685-ef13-4d92-803e-c7a96d575f2d" width="48%" alt="The Clock 모바일 버전 - 다크 모드" />
-  <img src="https://github.com/user-attachments/assets/c3e8b5a9-d649-424c-a018-21b48e93da74" width="48%" alt="The Clock 모바일 버전 - 라이트 모드" />
+  <img src="https://github.com/user-attachments/assets/dc1d7302-b7e7-4bc6-839a-d26e2a052826" width="48%" alt="The Clock 모바일 버전 - 다크 모드" />
+  <img src="https://github.com/user-attachments/assets/7138cf3c-46df-44e5-a8ce-483fde2d94ab" width="48%" alt="The Clock 모바일 버전 - 라이트 모드" />
 </p>
 
 ## 주요 기능
