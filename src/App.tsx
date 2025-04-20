@@ -1,12 +1,13 @@
 // src/App.tsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./components/header/Header";
 import MemoList from "./components/memo/MemoList";
 import { useTheme } from "./context/ThemeContext"; // 경로 업데이트
 import { useKeyboardShortcuts } from "./utils/keyboardShortcuts";
 import { ClockMode } from "./types/clock";
-import { Keyboard, X } from "lucide-react"; // Import only the icons we need
+import { Keyboard, X, Timer, Pause, Play } from "lucide-react"; // Import Timer icon
+import { useTimerStore } from "./store/timerStore"; // Import timer store
 import "./App.css";
 
 // 로컬 스토리지에서 상태 읽기/쓰기를 위한 키
@@ -32,9 +33,54 @@ function App() {
 
   const { isDarkMode, toggleTheme } = useTheme(); // isDarkMode 직접 사용
   const location = useLocation();
-  
+
   // Check if the current page is the About page to hide header
   const isAboutPage = location.pathname === "/about";
+
+  const { activeTimer } = useTimerStore(); // Get the active timer
+  const [timerCompleted, setTimerCompleted] = useState(false); // State for timer completion
+
+  // Effect to detect timer completion
+  useEffect(() => {
+    if (
+      activeTimer &&
+      activeTimer.remainingTime === 0 &&
+      !activeTimer.isRunning
+    ) {
+      setTimerCompleted(true);
+
+      // Reset the pulsing effect after 10 seconds
+      const timeout = setTimeout(() => {
+        setTimerCompleted(false);
+      }, 10000);
+
+      return () => clearTimeout(timeout);
+    } else {
+      setTimerCompleted(false);
+    }
+  }, [activeTimer]);
+
+  // Timer tick function to update the timer every second
+  const timerTick = useCallback(() => {
+    if (!activeTimer) return;
+
+    const { updateTimer, pauseTimer } = useTimerStore.getState();
+
+    if (activeTimer.isRunning && activeTimer.remainingTime > 0) {
+      updateTimer(activeTimer.id, activeTimer.remainingTime - 1);
+    } else if (activeTimer.isRunning && activeTimer.remainingTime === 0) {
+      // Timer is complete, pause it
+      pauseTimer(activeTimer.id);
+    }
+  }, [activeTimer]);
+
+  // Set up timer interval
+  useEffect(() => {
+    if (!activeTimer) return;
+
+    const intervalId = setInterval(timerTick, 1000);
+    return () => clearInterval(intervalId);
+  }, [activeTimer, timerTick]);
 
   // toggleClockMode 함수 정의
   const toggleClockMode = () => {
@@ -108,12 +154,8 @@ function App() {
       return "flex flex-col items-center justify-center h-screen overflow-hidden";
     }
 
-    // PC에서는 화면에 따라 유동적인 마진 적용
-    return `items-start ${
-      clockMode === "analog"
-        ? "mt-[min(40vh,10rem)] md:mt-[min(40vh,12rem)] lg:mt-[min(40vh,14rem)]"
-        : "mt-[min(45vh,12rem)] md:mt-[min(45vh,14rem)] lg:mt-[min(45vh,16rem)]"
-    } overflow-hidden`;
+    // PC에서는 화면에 따라 유동적인 마진 적용 - 상단/하단 여백을 균등하게 조정
+    return `items-center justify-center h-screen py-[10vh] overflow-hidden`;
   };
 
   // 단축키 가이드 토글 함수
@@ -162,6 +204,52 @@ function App() {
 
       {/* 메모 리스트 */}
       <MemoList />
+
+      {/* 타이머 플로팅 버튼 (타이머가 활성화되었을 때만 표시) */}
+      {activeTimer && (
+        <div className="fixed bottom-20 right-6 z-30">
+          <button
+            onClick={() => useTimerStore.getState().openModal()}
+            className={`flex items-center px-3 py-2 rounded-full shadow-lg ${
+              timerCompleted ? "animate-pulse-ring" : ""
+            } ${
+              isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+            }`}
+            title={activeTimer.name}
+          >
+            <Timer
+              className={`w-5 h-5 mr-2 ${timerCompleted ? "text-red-500" : ""}`}
+            />
+            <span className="font-mono">
+              {Math.floor(activeTimer.remainingTime / 60)}:
+              {String(activeTimer.remainingTime % 60).padStart(2, "0")}
+            </span>
+            {activeTimer.isRunning ? (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  useTimerStore.getState().pauseTimer(activeTimer.id);
+                }}
+                className="ml-2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+                title="일시정지"
+              >
+                <Pause className="w-3.5 h-3.5" />
+              </button>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  useTimerStore.getState().startTimer(activeTimer.id);
+                }}
+                className="ml-2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+                title="시작"
+              >
+                <Play className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </button>
+        </div>
+      )}
 
       {/* 키보드 단축키 안내 (최초 표시) - 모바일에서는 숨김 */}
       {showShortcutsTip && !isMobile && (
