@@ -130,15 +130,15 @@ function App() {
     >
       <div
         className={`container max-w-4xl px-4 ${
-          isMobile && isMainPage ? "py-0 -mt-5" : "py-4"
+          isMobile && isMainPage ? "py-0 -mt-16" : "py-4"
         } transition-colors duration-300 ${
           isMobile && isMainPage ? "flex flex-col justify-center" : ""
         }`}
       >
         {/* 모바일에서는 로고를 상단 중앙에 표시 */}
         {isMobile && isMainPage && (
-          <div className="text-center mb-2">
-            <h1 className="text-xl font-bold">The Clock</h1>
+          <div className="text-center mb-4">
+            <h1 className="text-2xl font-bold">The Clock</h1>
           </div>
         )}
 
