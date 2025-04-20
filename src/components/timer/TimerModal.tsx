@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTimerStore } from "../../store/timerStore";
 import Modal from "../ui/Modal";
 import { useTheme } from "../../context/ThemeContext";
+import { Timer, Clock } from "lucide-react";
 
 const TimerModal = () => {
   const { isDarkMode } = useTheme();
@@ -110,11 +111,11 @@ const TimerModal = () => {
 
   return (
     <Modal isOpen={isModalOpen} onClose={closeModal} title="타이머 설정">
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
+        <div>
           <label
             htmlFor="timer-name"
-            className="block mb-2 text-sm font-medium"
+            className="block mb-2 text-sm font-medium text-left"
           >
             타이머 이름 (선택사항)
           </label>
@@ -124,7 +125,7 @@ const TimerModal = () => {
             placeholder="타이머 이름을 입력하세요"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className={`w-full p-2 border rounded-md ${
+            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
               isDarkMode
                 ? "bg-gray-700 border-gray-600 text-white"
                 : "bg-white border-gray-300 text-gray-900"
@@ -133,47 +134,57 @@ const TimerModal = () => {
         </div>
 
         {/* 타이머 모드 선택 */}
-        <div className="mb-4">
-          <div className="flex border rounded-md overflow-hidden">
+        <div>
+          <label className="block mb-2 text-sm font-medium text-left">
+            타이머 타입
+          </label>
+          <div className="grid grid-cols-2 rounded-lg overflow-hidden border">
             <button
               type="button"
               onClick={() => setTimerMode("duration")}
-              className={`flex-1 py-2 px-4 text-center ${
+              className={`py-3 px-4 flex items-center justify-center gap-2 transition-colors ${
                 timerMode === "duration"
                   ? isDarkMode
                     ? "bg-blue-600 text-white"
                     : "bg-blue-500 text-white"
                   : isDarkMode
-                  ? "bg-gray-700"
-                  : "bg-gray-100"
+                  ? "bg-gray-700 hover:bg-gray-600"
+                  : "bg-gray-100 hover:bg-gray-200"
               }`}
             >
-              시간 경과 후
+              <Timer className="w-4 h-4" />
+              <span>시간 경과 후</span>
             </button>
             <button
               type="button"
               onClick={() => setTimerMode("specificTime")}
-              className={`flex-1 py-2 px-4 text-center ${
+              className={`py-3 px-4 flex items-center justify-center gap-2 transition-colors ${
                 timerMode === "specificTime"
                   ? isDarkMode
                     ? "bg-blue-600 text-white"
                     : "bg-blue-500 text-white"
                   : isDarkMode
-                  ? "bg-gray-700"
-                  : "bg-gray-100"
+                  ? "bg-gray-700 hover:bg-gray-600"
+                  : "bg-gray-100 hover:bg-gray-200"
               }`}
             >
-              특정 시각에
+              <Clock className="w-4 h-4" />
+              <span>특정 시각에</span>
             </button>
           </div>
         </div>
 
         {timerMode === "duration" ? (
-          <div className="mb-6">
-            <label className="block mb-2 text-sm font-medium">시간 설정</label>
-            <div className="flex items-center space-x-2">
+          <div>
+            <label className="block mb-3 text-sm font-medium text-left">
+              시간 설정
+            </label>
+            <div className="flex items-center space-x-3">
               <div className="flex-1">
-                <label htmlFor="hours" className="block text-center text-sm">
+                <label
+                  htmlFor="hours"
+                  className="block text-center text-xs mb-1 text-gray-500 dark:text-gray-400"
+                >
                   시
                 </label>
                 <input
@@ -185,16 +196,19 @@ const TimerModal = () => {
                   onChange={(e) =>
                     setHours(Math.max(0, parseInt(e.target.value) || 0))
                   }
-                  className={`w-full p-2 text-center border rounded-md ${
+                  className={`w-full p-3 text-center text-lg font-medium border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-white"
                       : "bg-white border-gray-300 text-gray-900"
                   }`}
                 />
               </div>
-              <span className="text-xl">:</span>
+              <span className="text-2xl font-light">:</span>
               <div className="flex-1">
-                <label htmlFor="minutes" className="block text-center text-sm">
+                <label
+                  htmlFor="minutes"
+                  className="block text-center text-xs mb-1 text-gray-500 dark:text-gray-400"
+                >
                   분
                 </label>
                 <input
@@ -206,16 +220,19 @@ const TimerModal = () => {
                   onChange={(e) =>
                     setMinutes(Math.max(0, parseInt(e.target.value) || 0))
                   }
-                  className={`w-full p-2 text-center border rounded-md ${
+                  className={`w-full p-3 text-center text-lg font-medium border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-white"
                       : "bg-white border-gray-300 text-gray-900"
                   }`}
                 />
               </div>
-              <span className="text-xl">:</span>
+              <span className="text-2xl font-light">:</span>
               <div className="flex-1">
-                <label htmlFor="seconds" className="block text-center text-sm">
+                <label
+                  htmlFor="seconds"
+                  className="block text-center text-xs mb-1 text-gray-500 dark:text-gray-400"
+                >
                   초
                 </label>
                 <input
@@ -227,7 +244,7 @@ const TimerModal = () => {
                   onChange={(e) =>
                     setSeconds(Math.max(0, parseInt(e.target.value) || 0))
                   }
-                  className={`w-full p-2 text-center border rounded-md ${
+                  className={`w-full p-3 text-center text-lg font-medium border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-white"
                       : "bg-white border-gray-300 text-gray-900"
@@ -237,13 +254,15 @@ const TimerModal = () => {
             </div>
           </div>
         ) : (
-          <div className="mb-6">
-            <label className="block mb-2 text-sm font-medium">시각 설정</label>
-            <div className="flex items-center space-x-2">
+          <div>
+            <label className="block mb-3 text-sm font-medium text-left">
+              시각 설정
+            </label>
+            <div className="flex items-center space-x-3">
               <div className="flex-1">
                 <label
                   htmlFor="specific-hour"
-                  className="block text-center text-sm"
+                  className="block text-center text-xs mb-1 text-gray-500 dark:text-gray-400"
                 >
                   시
                 </label>
@@ -251,7 +270,7 @@ const TimerModal = () => {
                   id="specific-hour"
                   value={specificHour}
                   onChange={(e) => setSpecificHour(parseInt(e.target.value))}
-                  className={`w-full p-2 text-center border rounded-md ${
+                  className={`w-full p-3 text-center text-lg font-medium border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-white"
                       : "bg-white border-gray-300 text-gray-900"
@@ -264,11 +283,11 @@ const TimerModal = () => {
                   ))}
                 </select>
               </div>
-              <span className="text-xl">:</span>
+              <span className="text-2xl font-light">:</span>
               <div className="flex-1">
                 <label
                   htmlFor="specific-minute"
-                  className="block text-center text-sm"
+                  className="block text-center text-xs mb-1 text-gray-500 dark:text-gray-400"
                 >
                   분
                 </label>
@@ -276,7 +295,7 @@ const TimerModal = () => {
                   id="specific-minute"
                   value={specificMinute}
                   onChange={(e) => setSpecificMinute(parseInt(e.target.value))}
-                  className={`w-full p-2 text-center border rounded-md ${
+                  className={`w-full p-3 text-center text-lg font-medium border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-white"
                       : "bg-white border-gray-300 text-gray-900"
@@ -293,26 +312,32 @@ const TimerModal = () => {
           </div>
         )}
 
-        {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
+        {error && (
+          <div className="rounded-md px-3 py-2 bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm">
+            {error}
+          </div>
+        )}
 
-        <div className="flex justify-end space-x-3">
+        <div className="flex justify-end space-x-3 pt-2">
           <button
             type="button"
             onClick={() => {
               resetForm();
               closeModal();
             }}
-            className={`px-4 py-2 rounded-md ${
+            className={`px-4 py-2.5 rounded-lg font-medium transition-colors ${
               isDarkMode
-                ? "bg-gray-600 hover:bg-gray-700"
-                : "bg-gray-200 hover:bg-gray-300"
+                ? "bg-gray-700 hover:bg-gray-600 text-gray-200"
+                : "bg-gray-200 hover:bg-gray-300 text-gray-700"
             }`}
           >
             취소
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className={`px-5 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors ${
+              isDarkMode ? "shadow-none" : "shadow"
+            }`}
           >
             시작
           </button>

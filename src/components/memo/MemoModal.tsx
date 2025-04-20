@@ -4,6 +4,7 @@ import { useMemoStore } from "../../store/memoStore";
 import Modal from "../ui/Modal";
 import { useTheme } from "../../context/ThemeContext";
 import { MEMO_COLORS } from "../../types/memo";
+import { Sparkles } from "lucide-react";
 
 const MemoModal = () => {
   const { isDarkMode } = useTheme();
@@ -74,11 +75,11 @@ const MemoModal = () => {
       onClose={closeModal}
       title={editingMemo ? "메모 수정" : "새 메모"}
     >
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
+        <div>
           <label
             htmlFor="memo-title"
-            className="block mb-2 text-sm font-medium"
+            className="block mb-2 text-sm font-medium text-left"
           >
             제목
           </label>
@@ -88,7 +89,7 @@ const MemoModal = () => {
             placeholder="메모 제목을 입력하세요"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className={`w-full p-2 border rounded-md ${
+            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
               isDarkMode
                 ? "bg-gray-700 border-gray-600 text-white"
                 : "bg-white border-gray-300 text-gray-900"
@@ -96,34 +97,45 @@ const MemoModal = () => {
           />
         </div>
 
-        <div className="mb-1">
+        <div>
           <div className="flex justify-between items-center mb-2">
-            <label htmlFor="memo-content" className="block text-sm font-medium">
+            <label
+              htmlFor="memo-content"
+              className="block text-sm font-medium text-left"
+            >
               내용
             </label>
             <button
               type="button"
               onClick={() => setShowMarkdownHelp(!showMarkdownHelp)}
-              className="text-xs text-blue-500 hover:underline"
+              className={`text-xs flex items-center gap-1 ${
+                isDarkMode ? "text-blue-400" : "text-blue-600"
+              } hover:underline transition-colors`}
             >
-              {showMarkdownHelp ? "마크다운 도움말 닫기" : "마크다운 도움말"}
+              <Sparkles className="w-3.5 h-3.5" />
+              {showMarkdownHelp ? "도움말 닫기" : "마크다운 도움말"}
             </button>
           </div>
 
           {showMarkdownHelp && (
             <div
-              className={`p-3 mb-3 text-xs rounded-md ${
-                isDarkMode ? "bg-gray-700" : "bg-gray-100"
+              className={`p-4 mb-3 text-xs rounded-lg border ${
+                isDarkMode
+                  ? "bg-gray-700 border-gray-600"
+                  : "bg-gray-50 border-gray-200"
               }`}
             >
-              <p className="mb-2">
+              <p className="mb-2 font-medium text-left">
                 마크다운 문법을 사용하여 텍스트를 꾸밀 수 있습니다:
               </p>
-              <div className="grid grid-cols-2 gap-1">
+              <div className="grid grid-cols-2 gap-2">
                 {markdownHelpExamples.map((example, index) => (
-                  <div key={index} className="flex items-center gap-2">
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 text-left"
+                  >
                     <code
-                      className={`px-1 py-0.5 rounded ${
+                      className={`px-1.5 py-1 rounded ${
                         isDarkMode ? "bg-gray-800" : "bg-gray-200"
                       }`}
                     >
@@ -141,8 +153,8 @@ const MemoModal = () => {
             placeholder="메모 내용을 입력하세요 (마크다운 지원)"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            rows={4}
-            className={`w-full p-2 border rounded-md ${
+            rows={5}
+            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
               isDarkMode
                 ? "bg-gray-700 border-gray-600 text-white"
                 : "bg-white border-gray-300 text-gray-900"
@@ -150,18 +162,20 @@ const MemoModal = () => {
           />
         </div>
 
-        <div className="mb-6">
-          <label className="block mb-2 text-sm font-medium">배경색</label>
-          <div className="flex items-center space-x-2">
+        <div>
+          <label className="block mb-2 text-sm font-medium text-left">
+            배경색
+          </label>
+          <div className="flex flex-wrap items-center gap-3 py-2">
             {Object.entries(MEMO_COLORS).map(([name, colorValue]) => (
               <button
                 key={name}
                 type="button"
                 onClick={() => setColor(colorValue)}
-                className={`w-8 h-8 rounded-full transition-all ${
+                className={`w-10 h-10 rounded-full transition-all shadow-sm ${
                   color === colorValue
-                    ? "ring-2 ring-offset-2 ring-blue-500"
-                    : ""
+                    ? "ring-2 ring-offset-2 ring-blue-500 scale-110"
+                    : "hover:scale-105"
                 }`}
                 style={{ backgroundColor: colorValue }}
                 title={name}
@@ -171,24 +185,26 @@ const MemoModal = () => {
           </div>
         </div>
 
-        <div className="flex justify-end space-x-3">
+        <div className="flex justify-end space-x-3 pt-2">
           <button
             type="button"
             onClick={() => {
               resetForm();
               closeModal();
             }}
-            className={`px-4 py-2 rounded-md ${
+            className={`px-4 py-2.5 rounded-lg font-medium transition-colors ${
               isDarkMode
-                ? "bg-gray-600 hover:bg-gray-700"
-                : "bg-gray-200 hover:bg-gray-300"
+                ? "bg-gray-700 hover:bg-gray-600 text-gray-200"
+                : "bg-gray-200 hover:bg-gray-300 text-gray-700"
             }`}
           >
             취소
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className={`px-5 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors ${
+              isDarkMode ? "shadow-none" : "shadow"
+            }`}
           >
             {editingMemo ? "수정" : "저장"}
           </button>

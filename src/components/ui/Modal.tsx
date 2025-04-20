@@ -46,25 +46,30 @@ const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm animate-fadeIn">
       <div
         ref={modalRef}
-        className={`w-full max-w-md p-6 rounded-lg shadow-xl transition-all transform ${
-          isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+        className={`w-full max-w-md p-6 rounded-lg shadow-2xl transition-all animate-scaleIn ${
+          isDarkMode
+            ? "bg-gray-800 text-white border border-gray-700"
+            : "bg-white text-gray-900 border border-gray-200"
         }`}
       >
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold">{title}</h2>
+        <div className="flex items-center justify-between mb-5 pb-2 border-b border-opacity-20 border-current">
+          <h2 className="text-xl font-bold text-left">{title}</h2>
           <button
             onClick={onClose}
-            className={`p-1 rounded-full ${
-              isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+            className={`p-2 rounded-full transition-colors ${
+              isDarkMode
+                ? "hover:bg-gray-700 text-gray-300 hover:text-white"
+                : "hover:bg-gray-200 text-gray-500 hover:text-gray-900"
             }`}
+            title="닫기"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
-        {children}
+        <div className="space-y-5">{children}</div>
       </div>
     </div>
   );
