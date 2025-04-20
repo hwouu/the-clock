@@ -27,6 +27,9 @@ function App() {
   // 단축키 가이드 표시를 위한 상태
   const [isShortcutsGuideOpen, setIsShortcutsGuideOpen] = useState(false);
 
+  // 모바일 여부 확인을 위한 상태
+  const [isMobile, setIsMobile] = useState(false);
+
   const { isDarkMode, toggleTheme } = useTheme(); // isDarkMode 직접 사용
   const location = useLocation();
 
@@ -51,6 +54,24 @@ function App() {
     document.title =
       location.pathname === "/about" ? "About | The Clock" : "The Clock";
   }, [location]);
+
+  // 모바일 감지
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // 초기 확인
+    checkIsMobile();
+
+    // 리사이즈 이벤트 리스너 추가
+    window.addEventListener("resize", checkIsMobile);
+
+    // 클린업
+    return () => {
+      window.removeEventListener("resize", checkIsMobile);
+    };
+  }, []);
 
   // 메인 페이지에서만 스크롤 제한
   const isMainPage = location.pathname === "/";
@@ -78,6 +99,13 @@ function App() {
   // 메인 페이지에서 시계 모드에 따라 마진 결정
   const getMarginClass = () => {
     if (!isMainPage) return "items-center";
+
+    // 모바일에서는 중앙 정렬을 위해 마진 조정
+    if (isMobile) {
+      return "flex flex-col items-center justify-center h-screen overflow-hidden";
+    }
+
+    // PC에서는 기존 마진 유지
     return `items-start ${
       clockMode === "analog" ? "mt-40" : "mt-60"
     } overflow-hidden`;
@@ -100,8 +128,25 @@ function App() {
         isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
       } ${getMarginClass()}`}
     >
-      <div className="container max-w-4xl px-4 py-4 transition-colors duration-300">
-        <Header clockMode={clockMode} toggleClockMode={toggleClockMode} />
+      <div
+        className={`container max-w-4xl px-4 ${
+          isMobile && isMainPage ? "py-0 -mt-5" : "py-4"
+        } transition-colors duration-300 ${
+          isMobile && isMainPage ? "flex flex-col justify-center" : ""
+        }`}
+      >
+        {/* 모바일에서는 로고를 상단 중앙에 표시 */}
+        {isMobile && isMainPage && (
+          <div className="text-center mb-2">
+            <h1 className="text-xl font-bold">The Clock</h1>
+          </div>
+        )}
+
+        <Header
+          clockMode={clockMode}
+          toggleClockMode={toggleClockMode}
+          hideLogo={isMobile && isMainPage}
+        />
         <main className="animate-fadeIn">
           <Outlet context={{ clockMode, toggleClockMode }} />
         </main>
@@ -110,8 +155,8 @@ function App() {
       {/* 메모 리스트 */}
       <MemoList />
 
-      {/* 키보드 단축키 안내 (최초 표시) */}
-      {showShortcutsTip && (
+      {/* 키보드 단축키 안내 (최초 표시) - 모바일에서는 숨김 */}
+      {showShortcutsTip && !isMobile && (
         <div
           className={`fixed bottom-6 left-6 p-4 rounded-lg shadow-lg max-w-xs theme-transition ${
             isDarkMode ? "bg-gray-800" : "bg-white"
@@ -133,48 +178,52 @@ function App() {
         </div>
       )}
 
-      {/* 단축키 가이드 플로팅 버튼 및 패널 */}
-      <div className="fixed bottom-6 left-6 z-40">
-        {isShortcutsGuideOpen ? (
-          <div
-            className={`rounded-lg shadow-xl overflow-hidden ${
-              isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
-            }`}
-          >
-            <div className="flex items-center justify-between p-3 border-b">
-              <h3 className="font-bold text-left">키보드 단축키</h3>
-              <button
-                onClick={toggleShortcutsGuide}
-                className={`p-1 rounded-full ${
-                  isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
-                }`}
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="p-3">
-              <ul className="text-sm space-y-1 text-left">
-                <li>Cmd/Ctrl + B: 시계 모드 전환</li>
-                <li>Cmd/Ctrl + D: 다크/라이트 모드 전환</li>
-                <li>Cmd/Ctrl + I: 타이머 열기</li>
-                <li>Cmd/Ctrl + K: 새 메모 작성</li>
-              </ul>
-            </div>
-          </div>
-        ) : (
-          !showShortcutsTip && (
-            <button
-              onClick={toggleShortcutsGuide}
-              className={`flex items-center justify-center p-2 rounded-full shadow-lg ${
+      {/* 단축키 가이드 플로팅 버튼 및 패널 - 모바일에서는 숨김 */}
+      {!isMobile && (
+        <div className="fixed bottom-6 left-6 z-40">
+          {isShortcutsGuideOpen ? (
+            <div
+              className={`rounded-lg shadow-xl overflow-hidden ${
                 isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
               }`}
-              title="키보드 단축키 안내"
             >
-              <Keyboard className="w-5 h-5" />
-            </button>
-          )
-        )}
-      </div>
+              <div className="flex items-center justify-between p-3 border-b">
+                <h3 className="font-bold text-left">키보드 단축키</h3>
+                <button
+                  onClick={toggleShortcutsGuide}
+                  className={`p-1 rounded-full ${
+                    isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                  }`}
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="p-3">
+                <ul className="text-sm space-y-1 text-left">
+                  <li>Cmd/Ctrl + B: 시계 모드 전환</li>
+                  <li>Cmd/Ctrl + D: 다크/라이트 모드 전환</li>
+                  <li>Cmd/Ctrl + I: 타이머 열기</li>
+                  <li>Cmd/Ctrl + K: 새 메모 작성</li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            !showShortcutsTip && (
+              <button
+                onClick={toggleShortcutsGuide}
+                className={`flex items-center justify-center p-2 rounded-full shadow-lg ${
+                  isDarkMode
+                    ? "bg-gray-800 text-white"
+                    : "bg-white text-gray-900"
+                }`}
+                title="키보드 단축키 안내"
+              >
+                <Keyboard className="w-5 h-5" />
+              </button>
+            )
+          )}
+        </div>
+      )}
     </div>
   );
 }
