@@ -2,8 +2,7 @@
 
 이 프로젝트는 React, TypeScript, 그리고 Tailwind CSS를 사용하여 만든 모던한 웹 시계 애플리케이션입니다. 다양한 기능과 반응형 디자인을 갖추고 있으며, 지속적으로 업데이트되고 있습니다.
 
-![The Clock Preview](https://github.com/user-attachments/assets/008bfc23-87f0-4b8b-bfc7-db40c355851d)
-
+![The Clock Preview](https://github.com/user-attachments/assets/82bdfaae-2f04-456f-96b4-7ab55ca1b4ed)
 
 🔗 [라이브 데모 보기](https://theclock.my/)
 
