@@ -1,4 +1,4 @@
-# The Clock - 모던한 웹 시계 애플리케이션
+# The Clock - Modern Web Clock Application
 
 이 프로젝트는 React, TypeScript, 그리고 Tailwind CSS를 사용하여 만든 모던한 웹 시계 애플리케이션입니다. 다양한 기능과 반응형 디자인을 갖추고 있으며, 지속적으로 업데이트되고 있습니다.
 
