@@ -31,10 +31,10 @@ const Header = ({ clockMode, toggleClockMode }: HeaderProps) => {
           isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
         } shadow-md`}
       >
-        <div className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3">
           <Clock className="w-6 h-6" />
           <h1 className="text-xl font-bold">The Clock</h1>
-        </div>
+        </Link>
 
         <div className="flex items-center space-x-2 sm:space-x-4">
           {/* 타이머 표시 영역 */}

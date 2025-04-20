@@ -1,22 +1,23 @@
 // src/pages/ClockPage.tsx
 import { useState, useEffect, useCallback } from "react";
+import { useOutletContext } from "react-router-dom"; // Add this import
 import AnalogClock from "../components/clock/AnalogClock";
 import DigitalClock from "../components/clock/DigitalClock";
 import WeatherDisplay from "../components/weather/WeatherDisplay";
 import { ClockMode } from "../types/clock";
 import { useTime } from "../hooks/useTime";
-import { useTheme } from "../context/ThemeContext"; // 경로 업데이트
+import { useTheme } from "../context/ThemeContext";
 import { useWeather } from "../hooks/useWeather";
 
-const ClockPage = () => {
-  // 로컬 스토리지에서 상태 읽기/쓰기를 위한 키
-  const CLOCK_MODE_STORAGE_KEY = "clock-app-mode";
+// Define the type for the outlet context
+interface ClockContextType {
+  clockMode: ClockMode;
+  toggleClockMode: () => void;
+}
 
-  // 초기 상태를 로컬 스토리지에서 가져오거나 기본값 사용
-  const [clockMode, setClockMode] = useState<ClockMode>(() => {
-    const savedMode = localStorage.getItem(CLOCK_MODE_STORAGE_KEY);
-    return (savedMode as ClockMode) || "digital";
-  });
+const ClockPage = () => {
+  // Use the shared context from App.tsx instead of local state
+  const { clockMode } = useOutletContext<ClockContextType>();
 
   const [isMobile, setIsMobile] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -38,20 +39,8 @@ const ClockPage = () => {
   }, []);
 
   const time = useTime();
-  const { isDarkMode } = useTheme(); // isDarkMode 직접 사용
+  const { isDarkMode } = useTheme();
   const { weather, location, error, isLoading, refreshWeather } = useWeather();
-
-  // 모드가 변경될 때마다 로컬 스토리지에 저장
-  useEffect(() => {
-    localStorage.setItem(CLOCK_MODE_STORAGE_KEY, clockMode);
-  }, [clockMode]);
-
-  const toggleClockMode = () => {
-    setClockMode((prev) => {
-      const newMode = prev === "analog" ? "digital" : "analog";
-      return newMode;
-    });
-  };
 
   const handleRefreshWeather = useCallback(async () => {
     if (refreshing || isLoading) return;
@@ -67,7 +56,7 @@ const ClockPage = () => {
   }, [refreshing, isLoading, refreshWeather]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 transition-colors duration-300">
+    <div className="flex flex-col items-center justify-center p-4 transition-colors duration-300">
       <div
         className={`w-full max-w-2xl p-6 sm:p-8 rounded-xl shadow-lg transition-all duration-300 ${
           isDarkMode ? "bg-gray-800" : "bg-white"
