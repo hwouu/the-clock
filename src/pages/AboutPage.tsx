@@ -14,6 +14,7 @@ import {
   Github,
   Mail,
   FileQuestion,
+  CircleUser,
 } from "lucide-react";
 
 const AboutPage = () => {
@@ -179,6 +180,13 @@ const AboutPage = () => {
               }`}
             >
               <div className="space-y-6">
+                <UpdateItem date="2025년 4월 21일">
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li>메모 리스트 마크다운 문법 지원</li>
+                    <li>기능 제안 폼링크 추가</li>
+                    <li>모달 디자인 개선</li>
+                  </ul>
+                </UpdateItem>
                 <UpdateItem date="2025년 4월 20일">
                   <ul className="list-disc pl-5 space-y-2">
                     <li>멀티 페이지 구조로 변경 및 라우팅 추가</li>
@@ -202,7 +210,7 @@ const AboutPage = () => {
                   isDarkMode ? "text-blue-400" : "text-blue-600"
                 }`}
               >
-                <Clock className="w-5 h-5 md:w-6 md:h-6" />
+                <CircleUser className="w-5 h-5 md:w-6 md:h-6" />
               </span>
               개발자 정보
             </h2>
