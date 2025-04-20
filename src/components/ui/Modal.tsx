@@ -1,7 +1,7 @@
 // src/components/ui/Modal.tsx
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "../../context/ThemeContext";
 
 interface ModalProps {
   isOpen: boolean;
@@ -11,8 +11,7 @@ interface ModalProps {
 }
 
 const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { isDarkMode } = useTheme();
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 // src/components/ui/Button.tsx
 import React from "react";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "../../context/ThemeContext";
 
 type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "icon";
 type ButtonSize = "sm" | "md" | "lg";
@@ -20,8 +20,7 @@ const Button = ({
   className = "",
   ...props
 }: ButtonProps) => {
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { isDarkMode } = useTheme();
 
   const baseStyles =
     "inline-flex items-center justify-center font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50";

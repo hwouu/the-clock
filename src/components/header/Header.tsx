@@ -1,7 +1,7 @@
 // src/components/header/Header.tsx
 import { Link } from "react-router-dom";
 import { Sun, Moon, Clock, Info, Timer, StickyNote } from "lucide-react";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "../../context/ThemeContext"; // 경로 업데이트
 import { ClockMode } from "../../types/clock";
 import { useTimerStore } from "../../store/timerStore";
 import { useMemoStore } from "../../store/memoStore";
@@ -15,8 +15,7 @@ interface HeaderProps {
 }
 
 const Header = ({ clockMode, toggleClockMode }: HeaderProps) => {
-  const { theme, toggleTheme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { isDarkMode, toggleTheme } = useTheme(); // isDarkMode 직접 사용
   const {
     activeTimer,
     openModal: openTimerModal,
