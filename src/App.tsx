@@ -105,9 +105,11 @@ function App() {
       return "flex flex-col items-center justify-center h-screen overflow-hidden";
     }
 
-    // PC에서는 기존 마진 유지
+    // PC에서는 화면에 따라 유동적인 마진 적용
     return `items-start ${
-      clockMode === "analog" ? "mt-40" : "mt-60"
+      clockMode === "analog"
+        ? "mt-[min(40vh,10rem)] md:mt-[min(40vh,12rem)] lg:mt-[min(40vh,14rem)]"
+        : "mt-[min(45vh,12rem)] md:mt-[min(45vh,14rem)] lg:mt-[min(45vh,16rem)]"
     } overflow-hidden`;
   };
 
@@ -129,8 +131,8 @@ function App() {
       } ${getMarginClass()}`}
     >
       <div
-        className={`container max-w-4xl px-4 ${
-          isMobile && isMainPage ? "py-0 -mt-16" : "py-4"
+        className={`container max-w-4xl px-4 sm:px-6 md:px-8 ${
+          isMobile && isMainPage ? "py-0 -mt-16" : "py-4 sm:py-6"
         } transition-colors duration-300 ${
           isMobile && isMainPage ? "flex flex-col justify-center" : ""
         }`}
