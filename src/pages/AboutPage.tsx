@@ -252,7 +252,7 @@ const AboutPage = () => {
               : "bg-gray-100 text-gray-600"
           }`}
         >
-          <p>© 2025 The Clock. 모든 권리 보유.</p>
+          <p>© 2025 The Clock. All right reserved.</p>
         </div>
       </div>
     </div>
