@@ -1,6 +1,6 @@
 // src/components/header/Header.tsx
 import { Link } from "react-router-dom";
-import { Sun, Moon, Clock, Info, Timer, StickyNote, ClockFading } from "lucide-react";
+import { Sun, Moon, Info, Timer, StickyNote, ClockFading } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext"; // 경로 업데이트
 import { ClockMode } from "../../types/clock";
 import { useTimerStore } from "../../store/timerStore";
@@ -32,7 +32,6 @@ const Header = ({ clockMode, toggleClockMode }: HeaderProps) => {
         } shadow-md`}
       >
         <Link to="/" className="flex items-center gap-3">
-           
           <h1 className="text-xl font-bold">The Clock</h1>
         </Link>
 
