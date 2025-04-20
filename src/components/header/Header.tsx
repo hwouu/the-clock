@@ -8,13 +8,19 @@ import { useMemoStore } from "../../store/memoStore";
 import TimerDisplay from "../timer/TimerDisplay";
 import TimerModal from "../timer/TimerModal";
 import MemoModal from "../memo/MemoModal";
+import { useEffect, useState } from "react";
 
 interface HeaderProps {
   clockMode: ClockMode;
   toggleClockMode: () => void;
+  hideLogo?: boolean; // Optional prop to hide the logo
 }
 
-const Header = ({ clockMode, toggleClockMode }: HeaderProps) => {
+const Header = ({
+  clockMode,
+  toggleClockMode,
+  hideLogo = false,
+}: HeaderProps) => {
   const { isDarkMode, toggleTheme } = useTheme(); // isDarkMode 직접 사용
   const {
     activeTimer,
@@ -24,16 +30,44 @@ const Header = ({ clockMode, toggleClockMode }: HeaderProps) => {
   const { openModal: openMemoModal, isModalOpen: isMemoModalOpen } =
     useMemoStore();
 
+  // 모바일 여부 확인을 위한 상태
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 모바일 감지
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // 초기 확인
+    checkIsMobile();
+
+    // 리사이즈 이벤트 리스너 추가
+    window.addEventListener("resize", checkIsMobile);
+
+    // 클린업
+    return () => {
+      window.removeEventListener("resize", checkIsMobile);
+    };
+  }, []);
+
   return (
     <>
       <header
-        className={`py-4 px-6 mb-6 rounded-xl flex items-center justify-between transition-colors ${
+        className={`py-3 md:py-4 px-4 md:px-6 ${
+          isMobile ? "mb-3" : "mb-6"
+        } rounded-xl flex items-center justify-between transition-colors ${
           isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
         } shadow-md`}
       >
-        <Link to="/" className="flex items-center gap-3">
-          <h1 className="text-xl font-bold">The Clock</h1>
-        </Link>
+        {!hideLogo && (
+          <Link to="/" className="flex items-center gap-3">
+            <h1 className="text-xl font-bold">The Clock</h1>
+          </Link>
+        )}
+
+        {/* If logo is hidden, use an empty div to maintain the space */}
+        {hideLogo && <div></div>}
 
         <div className="flex items-center space-x-2 sm:space-x-4">
           {/* 타이머 표시 영역 */}
