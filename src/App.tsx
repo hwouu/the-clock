@@ -30,16 +30,29 @@ function App() {
   const { isDarkMode, toggleTheme } = useTheme();
   const location = useLocation();
   const isAboutPage = location.pathname === "/about";
+  const isMainPage = location.pathname === "/";
 
   const { activeTimer } = useTimerStore();
-  const { alarms, toggleAlarm } = useAlarmStore(); // toggleAlarm 함수 가져오기
+  const { alarms, toggleAlarm } = useAlarmStore();
+
+  // 토글 함수를 먼저 선언합니다.
+  const toggleClockMode = () => {
+    setClockMode((prev) => (prev === "analog" ? "digital" : "analog"));
+  };
+
+  // 함수들이 선언된 후에 훅을 호출합니다.
+  useKeyboardShortcuts({
+    toggleClockMode,
+    toggleTheme,
+    enabled: isMainPage,
+  });
 
   // 최초 렌더링 시 알림 권한 요청
   useEffect(() => {
     requestNotificationPermission();
   }, []);
 
-  // 알람 로직: 정확한 시간에 알림이 오도록 setTimeout 사용
+  // 알람 로직
   useEffect(() => {
     let alarmTimeout: ReturnType<typeof setTimeout>;
 
@@ -52,7 +65,6 @@ function App() {
           const alarmTime = new Date();
           alarmTime.setHours(alarm.hour, alarm.minute, 0, 0);
 
-          // 알람 시간이 이미 지났으면 다음 날로 설정
           if (alarmTime.getTime() <= now.getTime()) {
             alarmTime.setDate(alarmTime.getDate() + 1);
           }
@@ -70,8 +82,7 @@ function App() {
       if (nextAlarm) {
         const delay = nextAlarm.time - now.getTime();
         alarmTimeout = setTimeout(() => {
-          sendNotification("", nextAlarm!.name);
-          // 알람이 울리면 토글을 OFF로 변경하는 로직 추가
+          sendNotification("알람", nextAlarm!.name);
           toggleAlarm(nextAlarm!.id);
         }, delay);
       }
@@ -79,15 +90,8 @@ function App() {
 
     scheduleNextAlarm();
 
-    // 컴포넌트 언마운트 시 또는 알람 목록 변경 시 타이머 정리
     return () => clearTimeout(alarmTimeout);
   }, [alarms, toggleAlarm]);
-
-  const toggleClockMode = () => {
-    setClockMode((prev) => (prev === "analog" ? "digital" : "analog"));
-  };
-
-  useKeyboardShortcuts({ toggleClockMode, toggleTheme });
 
   useEffect(() => {
     localStorage.setItem(CLOCK_MODE_STORAGE_KEY, clockMode);
@@ -105,8 +109,27 @@ function App() {
     return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
+  // 페이지별 스크롤 제어
+  useEffect(() => {
+    const htmlElement = document.documentElement;
+    const bodyElement = document.body;
+
+    if (isMainPage) {
+      htmlElement.classList.add("no-scroll");
+      bodyElement.classList.add("no-scroll");
+    } else {
+      htmlElement.classList.remove("no-scroll");
+      bodyElement.classList.remove("no-scroll");
+    }
+
+    return () => {
+      htmlElement.classList.remove("no-scroll");
+      bodyElement.classList.remove("no-scroll");
+    };
+  }, [isMainPage]);
+
   const getMarginClass = () => {
-    if (location.pathname !== "/") return "items-start";
+    if (!isMainPage) return "items-start";
     if (isMobile) return "flex flex-col items-center justify-center h-screen";
     return `items-center justify-center h-screen py-[10vh]`;
   };
@@ -122,14 +145,12 @@ function App() {
     >
       <div
         className={`container max-w-4xl px-4 sm:px-6 md:px-8 ${
-          isMobile && location.pathname === "/" ? "py-0 -mt-16" : "py-4 sm:py-6"
+          isMobile && isMainPage ? "py-0 -mt-16" : "py-4 sm:py-6"
         } transition-colors duration-300 ${
-          isMobile && location.pathname === "/"
-            ? "flex flex-col justify-center"
-            : ""
+          isMobile && isMainPage ? "flex flex-col justify-center" : ""
         }`}
       >
-        {isMobile && location.pathname === "/" && (
+        {isMobile && isMainPage && (
           <div className="text-center mb-4">
             <h1 className="text-2xl font-bold">The Clock</h1>
           </div>
@@ -138,7 +159,7 @@ function App() {
           <Header
             clockMode={clockMode}
             toggleClockMode={toggleClockMode}
-            hideLogo={isMobile && location.pathname === "/"}
+            hideLogo={isMobile && isMainPage}
           />
         )}
         <main className="animate-fadeIn">

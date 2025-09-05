@@ -1,6 +1,6 @@
 // src/pages/AboutPage.tsx
 import React from "react";
-import { useTheme } from "../hooks/useTheme"; // 경로 수정
+import { useTheme } from "../hooks/useTheme";
 import { Link } from "react-router-dom";
 import {
   Clock,
@@ -15,6 +15,8 @@ import {
   Mail,
   FileQuestion,
   CircleUser,
+  AlarmClock,
+  BellRing,
 } from "lucide-react";
 
 const AboutPage = () => {
@@ -96,12 +98,8 @@ const AboutPage = () => {
                 <FeatureItem icon={<Sun />} title="다크 모드/라이트 모드">
                   사용자 환경에 맞게 테마를 변경할 수 있습니다.
                 </FeatureItem>
-                <FeatureItem icon={<Calendar />} title="실시간 시간 표시">
-                  현재 시간을 정확하게 보여줍니다.
-                </FeatureItem>
-                <FeatureItem icon={<Map />} title="실시간 위치 및 날씨 정보">
-                  OpenWeatherMap API를 사용하여 현재 위치와 날씨 상태를
-                  표시합니다.
+                <FeatureItem icon={<AlarmClock />} title="알람 기능">
+                  정확한 시간에 사운드와 함께 알림을 받을 수 있습니다.
                 </FeatureItem>
                 <FeatureItem icon={<Timer />} title="타이머 기능">
                   편리한 타이머 기능으로 시간을 관리할 수 있습니다.
@@ -109,8 +107,11 @@ const AboutPage = () => {
                 <FeatureItem icon={<StickyNote />} title="메모 기능">
                   간단한 메모를 작성하고 관리할 수 있습니다.
                 </FeatureItem>
-                <FeatureItem icon={<LayoutGrid />} title="반응형 디자인">
-                  모든 디바이스 화면 크기에 맞게 최적화되어 있습니다.
+                <FeatureItem icon={<BellRing />} title="고급 알림 시스템">
+                  브라우저 푸시 알림, 사운드, 탭 깜빡임 효과를 제공합니다.
+                </FeatureItem>
+                <FeatureItem icon={<Map />} title="실시간 위치 및 날씨 정보">
+                  현재 위치의 날씨 상태를 표시합니다.
                 </FeatureItem>
               </ul>
             </div>
@@ -144,16 +145,10 @@ const AboutPage = () => {
               <TechItem title="Tailwind CSS">
                 모던하고 반응형인 UI 스타일링
               </TechItem>
-              <TechItem title="Vite">빠른 개발 서버 및 빌드 도구</TechItem>
-              <TechItem title="date-fns">
-                날짜 및 시간 형식화 라이브러리
-              </TechItem>
-              <TechItem title="Lucide React">
-                아이콘 컴포넌트 라이브러리
-              </TechItem>
               <TechItem title="Zustand">
                 간결하고 강력한 상태 관리 라이브러리
               </TechItem>
+              <TechItem title="Vite">빠른 개발 서버 및 빌드 도구</TechItem>
               <TechItem title="OpenWeatherMap API">
                 실시간 날씨 데이터 제공
               </TechItem>
@@ -180,20 +175,19 @@ const AboutPage = () => {
               }`}
             >
               <div className="space-y-6">
+                <UpdateItem date="2025년 9월 5일">
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li>알람 기능 추가 및 알림 시스템 고도화</li>
+                    <li>헤더 및 플로팅 UI/UX 개선</li>
+                    <li>알람/타이머 정시 알림 로직 개선</li>
+                    <li>페이지별 스크롤 제어 등 버그 수정</li>
+                  </ul>
+                </UpdateItem>
                 <UpdateItem date="2025년 4월 21일">
                   <ul className="list-disc pl-5 space-y-2">
                     <li>메모 리스트 마크다운 문법 지원</li>
                     <li>기능 제안 폼링크 추가</li>
                     <li>모달 디자인 개선</li>
-                  </ul>
-                </UpdateItem>
-                <UpdateItem date="2025년 4월 20일">
-                  <ul className="list-disc pl-5 space-y-2">
-                    <li>멀티 페이지 구조로 변경 및 라우팅 추가</li>
-                    <li>소개 페이지 개선</li>
-                    <li>헤더 컴포넌트 추가</li>
-                    <li>UI 디자인 현대화</li>
-                    <li>타이머 및 메모 기능 개선</li>
                   </ul>
                 </UpdateItem>
               </div>
@@ -354,13 +348,11 @@ const UpdateItem = ({
   date: string;
   children: React.ReactNode;
 }) => {
-  const { isDarkMode } = useTheme();
-
   return (
     <div className="text-left">
       <h3
         className={`text-xl font-semibold ${
-          isDarkMode ? "text-blue-400" : "text-blue-600"
+          useTheme().isDarkMode ? "text-blue-400" : "text-blue-600"
         } mb-2`}
       >
         {date}
