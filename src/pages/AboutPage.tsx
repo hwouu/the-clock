@@ -66,8 +66,11 @@ const AboutPage = () => {
               }`}
             >
               <p className="leading-relaxed text-sm md:text-base text-left">
-                이 앱은 React, TypeScript, 그리고 Tailwind CSS를 사용하여 만든
-                모던한 웹 시계 애플리케이션입니다.
+                나는 시간만 딱 보고싶은데... 광고가 없는 시계 사이트는 왜 없지? 🤔
+                <br /><br />
+                기본에 충실한 시계를 보여주고, 알람, 타이머, 메모 등 꼭 필요한 기능만 담았습니다.
+                <br /><br />
+                전체화면으로 시간을 확인하며 할 일에 몰입해보세요 🔥
               </p>
             </div>
           </section>
