@@ -53,22 +53,14 @@ const Header = ({
   return (
     <>
       <header
-        className={`py-3 px-5 md:px-6 ${
+        className={`py-3 px-4 md:px-5 ${
           isMobile ? "mb-3" : "mb-6"
         } rounded-xl flex items-center justify-between transition-colors ${
           isDarkMode ? "bg-gray-800" : "bg-white"
         } shadow-md`}
       >
-        {!shouldHideLogo && (
-          <Link to="/" className="flex items-center gap-3">
-            <h1 className="text-xl font-bold">The Clock</h1>
-          </Link>
-        )}
-        <div
-          className={`flex items-center ${
-            isMobile ? "w-full justify-around" : "space-x-2"
-          }`}
-        >
+        {/* Left Buttons */}
+        <div className="flex items-center space-x-1 md:space-x-2">
           <Link
             to="/about"
             className={`p-2 rounded-full ${
@@ -78,6 +70,19 @@ const Header = ({
           >
             <Info className="w-5 h-5" />
           </Link>
+          <button
+            onClick={toggleTheme}
+            className={`p-2 rounded-full ${
+              isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+            }`}
+            aria-label={isDarkMode ? "라이트 모드로 전환" : "다크 모드로 전환"}
+          >
+            {isDarkMode ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
+          </button>
           <button
             onClick={toggleClockMode}
             className={`p-2 rounded-full ${
@@ -95,19 +100,19 @@ const Header = ({
               <Clock className="w-5 h-5" />
             )}
           </button>
-          <button
-            onClick={toggleTheme}
-            className={`p-2 rounded-full ${
-              isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
-            }`}
-            aria-label={isDarkMode ? "라이트 모드로 전환" : "다크 모드로 전환"}
-          >
-            {isDarkMode ? (
-              <Sun className="w-5 h-5" />
-            ) : (
-              <Moon className="w-5 h-5" />
-            )}
-          </button>
+        </div>
+
+        {/* Center Title */}
+        {!shouldHideLogo && (
+          <div className="absolute left-1/2 -translate-x-1/2">
+            <Link to="/" className="flex items-center gap-3">
+              <h1 className="text-xl font-bold">The Clock</h1>
+            </Link>
+          </div>
+        )}
+
+        {/* Right Buttons */}
+        <div className="flex items-center space-x-1 md:space-x-2">
           <button
             onClick={() => openAlarmModal()}
             className={`p-2 rounded-full ${

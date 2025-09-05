@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { useTimerStore } from "../store/timerStore";
 import { useMemoStore } from "../store/memoStore";
+import { useAlarmStore } from "../store/alarmStore";
 
 interface KeyboardShortcutsProps {
   toggleClockMode: () => void;
@@ -14,29 +15,33 @@ export const useKeyboardShortcuts = ({
 }: KeyboardShortcutsProps) => {
   const { openModal: openTimerModal } = useTimerStore();
   const { openModal: openMemoModal } = useMemoStore();
+  const { openModal: openAlarmModal } = useAlarmStore();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Cmd/Ctrl + 키 조합 확인
       const isModifier = event.metaKey || event.ctrlKey;
 
       if (isModifier) {
         switch (event.key) {
-          case "d": // 다크/라이트 모드 전환
+          case "d":
             event.preventDefault();
             toggleTheme();
             break;
-          case "b": // 시계 모드 전환 (아날로그/디지털)
+          case "b":
             event.preventDefault();
             toggleClockMode();
             break;
-          case "i": // 타이머 열기
+          case "i":
             event.preventDefault();
             openTimerModal();
             break;
-          case "k": // 새 메모 열기
+          case "k":
             event.preventDefault();
             openMemoModal();
+            break;
+          case "a":
+            event.preventDefault();
+            openAlarmModal();
             break;
           default:
             break;
@@ -46,5 +51,11 @@ export const useKeyboardShortcuts = ({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [toggleClockMode, toggleTheme, openTimerModal, openMemoModal]);
+  }, [
+    toggleClockMode,
+    toggleTheme,
+    openTimerModal,
+    openMemoModal,
+    openAlarmModal,
+  ]);
 };
