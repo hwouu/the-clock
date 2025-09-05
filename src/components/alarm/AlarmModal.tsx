@@ -43,15 +43,17 @@ const AlarmModal = () => {
   };
 
   const handleHourChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value) || 0;
-    if (value >= 0 && value <= 23) {
+    const value = parseInt(e.target.value, 10);
+    // 입력값이 유효한 숫자인 경우에만 상태 업데이트
+    if (!isNaN(value) && value >= 0 && value <= 23) {
       setHour(value);
     }
   };
 
   const handleMinuteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value) || 0;
-    if (value >= 0 && value <= 59) {
+    const value = parseInt(e.target.value, 10);
+    // 입력값이 유효한 숫자인 경우에만 상태 업데이트
+    if (!isNaN(value) && value >= 0 && value <= 59) {
       setMinute(value);
     }
   };
@@ -100,7 +102,7 @@ const AlarmModal = () => {
                 type="number"
                 min="0"
                 max="23"
-                value={hour}
+                value={String(hour).padStart(2, "0")}
                 onChange={handleHourChange}
                 className={`w-full p-3 text-center text-lg font-medium border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
                   isDarkMode
@@ -122,7 +124,7 @@ const AlarmModal = () => {
                 type="number"
                 min="0"
                 max="59"
-                value={minute}
+                value={String(minute).padStart(2, "0")}
                 onChange={handleMinuteChange}
                 className={`w-full p-3 text-center text-lg font-medium border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
                   isDarkMode

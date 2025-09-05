@@ -24,6 +24,13 @@ const AnalogClock: React.FC<AnalogClockProps> = ({ time, isDarkMode }) => {
     return () => window.removeEventListener("resize", updateClockSize);
   }, []);
 
+  // 시침/분침 색상 결정
+  const handColorClass = isDarkMode ? "bg-white" : "bg-gray-800";
+  const markerColorClass = isDarkMode ? "bg-gray-300" : "bg-gray-600";
+  const centerDotBorderColorClass = isDarkMode
+    ? "border-gray-800"
+    : "border-white";
+
   return (
     <div className="flex flex-col items-center">
       <div
@@ -48,9 +55,9 @@ const AnalogClock: React.FC<AnalogClockProps> = ({ time, isDarkMode }) => {
                 style={{ transform: `rotate(${hour * 30}deg)` }}
               >
                 <div
-                  className={`absolute ${isPrimary ? "w-1 h-4" : "w-0.5 h-2"} ${
-                    isDarkMode ? "bg-gray-300" : "bg-gray-600"
-                  }`}
+                  className={`absolute ${
+                    isPrimary ? "w-1 h-4" : "w-0.5 h-2"
+                  } ${markerColorClass}`}
                   style={{ left: "calc(50% - 2px)", top: "6px" }}
                 />
               </div>
@@ -62,7 +69,7 @@ const AnalogClock: React.FC<AnalogClockProps> = ({ time, isDarkMode }) => {
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
           {/* Hour Hand */}
           <div
-            className="absolute w-1.5 h-1/4 bg-gray-800 dark:bg-gray-200 rounded-full"
+            className={`absolute w-1.5 h-1/4 rounded-full ${handColorClass}`}
             style={{
               transform: `rotate(${time.hours * 30 + time.minutes / 2}deg)`,
               transformOrigin: "bottom",
@@ -71,7 +78,7 @@ const AnalogClock: React.FC<AnalogClockProps> = ({ time, isDarkMode }) => {
           />
           {/* Minute Hand */}
           <div
-            className="absolute w-1 h-1/3 bg-gray-800 dark:bg-gray-200 rounded-full"
+            className={`absolute w-1 h-1/3 rounded-full ${handColorClass}`}
             style={{
               transform: `rotate(${time.minutes * 6}deg)`,
               transformOrigin: "bottom",
@@ -88,7 +95,9 @@ const AnalogClock: React.FC<AnalogClockProps> = ({ time, isDarkMode }) => {
             }}
           />
           {/* Center Dot */}
-          <div className="absolute w-3 h-3 bg-red-500 rounded-full border-2 border-white dark:border-gray-800" />
+          <div
+            className={`absolute w-3 h-3 bg-red-500 rounded-full border-2 ${centerDotBorderColorClass}`}
+          />
         </div>
       </div>
       <div className={`mt-6 font-medium ${isMobile ? "text-base" : "text-xl"}`}>

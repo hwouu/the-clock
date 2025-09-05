@@ -18,10 +18,15 @@ body {
   padding: 0;
   height: 100%;
   width: 100%;
-  overflow: hidden; /* 스크롤 방지 */
+  /* overflow: hidden; <- 이 줄을 제거합니다. */
   transition-property: color, background-color, border-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
+}
+
+/* 메인 페이지에서만 스크롤을 막기 위한 클래스 추가 */
+.no-scroll {
+  overflow: hidden;
 }
 
 body {
