@@ -1,6 +1,6 @@
 // src/pages/AboutPage.tsx
 import React from "react";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../hooks/useTheme"; // 경로 수정
 import { Link } from "react-router-dom";
 import {
   Clock,

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useMemoStore } from "../../store/memoStore";
 import Modal from "../ui/Modal";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme"; // 경로 수정
 import { MEMO_COLORS } from "../../types/memo";
 import { Sparkles } from "lucide-react";
 

@@ -1,12 +1,12 @@
 // src/pages/ClockPage.tsx
 import { useState, useEffect, useCallback } from "react";
-import { useOutletContext } from "react-router-dom"; // Add this import
+import { useOutletContext } from "react-router-dom";
 import AnalogClock from "../components/clock/AnalogClock";
 import DigitalClock from "../components/clock/DigitalClock";
 import WeatherDisplay from "../components/weather/WeatherDisplay";
 import { ClockMode } from "../types/clock";
 import { useTime } from "../hooks/useTime";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../hooks/useTheme"; // 경로 수정
 import { useWeather } from "../hooks/useWeather";
 
 // Define the type for the outlet context
@@ -89,7 +89,6 @@ const ClockPage = () => {
           weather={weather}
           location={location}
           isDarkMode={isDarkMode}
-          date={time.date}
           error={error}
           isLoading={isLoading || refreshing}
           onRefresh={handleRefreshWeather}

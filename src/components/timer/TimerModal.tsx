@@ -2,9 +2,10 @@
 import { useState } from "react";
 import { useTimerStore } from "../../store/timerStore";
 import Modal from "../ui/Modal";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme"; // 경로 수정
 import { Timer, Clock } from "lucide-react";
 
+// ... (컴포넌트의 나머지 코드는 동일합니다)
 const TimerModal = () => {
   const { isDarkMode } = useTheme();
   const { isModalOpen, closeModal, addTimer } = useTimerStore();

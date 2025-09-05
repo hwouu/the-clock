@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Edit, Trash2, X } from "lucide-react";
 import { useMemoStore } from "../../store/memoStore";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme"; // 경로 수정
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import ReactMarkdown from "react-markdown";

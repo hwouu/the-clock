@@ -1,8 +1,9 @@
 // src/components/ui/Modal.tsx
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme"; // 경로 수정
 
+// ... (컴포넌트의 나머지 코드는 동일합니다)
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;

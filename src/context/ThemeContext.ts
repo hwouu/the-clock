@@ -1,4 +1,4 @@
-// src/context/ThemeContext.tsx
+// src/context/ThemeContext.ts
 import { createContext } from "react";
 import { ThemeContextType } from "../types/theme";
 
