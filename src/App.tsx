@@ -70,7 +70,7 @@ function App() {
       if (nextAlarm) {
         const delay = nextAlarm.time - now.getTime();
         alarmTimeout = setTimeout(() => {
-          sendNotification("알람", nextAlarm!.name);
+          sendNotification("", nextAlarm!.name);
           // 알람이 울리면 토글을 OFF로 변경하는 로직 추가
           toggleAlarm(nextAlarm!.id);
         }, delay);
