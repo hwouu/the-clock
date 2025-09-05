@@ -1,15 +1,12 @@
 // src/components/weather/WeatherDisplay.tsx
 import React, { useEffect, useState } from "react";
-import { MapPin, CalendarClock, RefreshCw, AlertTriangle } from "lucide-react";
+import { MapPin, RefreshCw, AlertTriangle } from "lucide-react";
 import { WeatherData } from "../../types/clock";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
 
 interface WeatherDisplayProps {
   weather: WeatherData;
   location: string;
   isDarkMode: boolean;
-  date: Date;
   error?: string | null;
   isLoading?: boolean;
   onRefresh?: () => void;
@@ -19,112 +16,79 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
   weather,
   location,
   isDarkMode,
-  date,
   error,
   isLoading,
   onRefresh,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState(new Date());
 
-  // 화면 크기 감지
   useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-
-    // 초기 체크
+    const checkIfMobile = () => setIsMobile(window.innerWidth < 640);
     checkIfMobile();
-
-    // 리사이즈 시 체크
     window.addEventListener("resize", checkIfMobile);
-
-    return () => {
-      window.removeEventListener("resize", checkIfMobile);
-    };
+    return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
-  const formatDateTime = (date: Date): string => {
-    return format(
-      date,
-      isMobile ? "yyyy.MM.dd HH:mm" : "yyyy년 MM월 dd일 HH:mm",
-      { locale: ko }
-    );
-  };
+  useEffect(() => {
+    if (!isLoading) {
+      setLastUpdated(new Date());
+    }
+  }, [isLoading]);
 
-  const getWeatherIconSize = () => {
-    return weather.icon === "⛅" ||
-      weather.icon === "☀️" ||
-      weather.icon === "🌧️"
-      ? "text-xl"
-      : "text-lg";
+  const handleRefresh = () => {
+    if (onRefresh) onRefresh();
   };
 
   return (
     <div
       className={`p-4 rounded-lg duration-300 ${
-        isDarkMode ? " text-gray-100" : " text-gray-800"
+        isDarkMode ? "text-gray-100" : "text-gray-800"
       }`}
     >
       <div
         className={`flex ${
-          isMobile ? "flex-col space-y-2" : "items-center justify-between"
+          isMobile ? "flex-col space-y-3" : "items-center justify-between"
         }`}
       >
         <div className="flex items-center space-x-2">
           <MapPin
-            className={`${isMobile ? "w-4 h-4" : "w-5 h-5"} ${
+            className={`w-5 h-5 ${
               isDarkMode ? "text-gray-300" : "text-gray-500"
             }`}
           />
-          <span className={`${isMobile ? "text-sm" : "text-base"} font-medium`}>
-            {location}
-          </span>
+          <span className="font-medium">{location}</span>
         </div>
         <div className="flex items-center">
           {isLoading ? (
-            <RefreshCw
-              className={`mr-2 ${
-                isMobile ? "w-3.5 h-3.5" : "w-4 h-4"
-              } animate-spin ${isDarkMode ? "text-gray-300" : "text-gray-500"}`}
-            />
+            <RefreshCw className="mr-2 w-4 h-4 animate-spin" />
           ) : error ? (
-            <AlertTriangle
-              className={`mr-2 ${isMobile ? "w-3.5 h-3.5" : "w-4 h-4"} ${
-                isDarkMode ? "text-yellow-300" : "text-yellow-500"
-              }`}
-            />
+            <AlertTriangle className="mr-2 w-4 h-4 text-yellow-500" />
           ) : (
-            <span className={`mr-2 ${getWeatherIconSize()}`}>
-              {weather.icon}
-            </span>
+            <span className="mr-2 text-xl">{weather.icon}</span>
           )}
-          <span className={`${isMobile ? "text-sm" : "text-base"} font-medium`}>
+          <span className="font-medium">
             {weather.temp} | {weather.condition}
           </span>
-          {onRefresh && (
-            <button
-              onClick={onRefresh}
-              className={`ml-2 p-1 rounded-full ${
-                isDarkMode ? "hover:bg-gray-600" : "hover:bg-gray-200"
-              } transition-colors ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
+          <button
+            onClick={handleRefresh}
+            className={`ml-2 p-1 rounded-full ${
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={isLoading}
+            aria-label="날씨 새로고침"
+          >
+            <RefreshCw
+              className={`w-3.5 h-3.5 ${
+                isDarkMode ? "text-gray-300" : "text-gray-500"
               }`}
-              disabled={isLoading}
-              aria-label="날씨 새로고침"
-            >
-              <RefreshCw
-                className={`${isMobile ? "w-3 h-3" : "w-3.5 h-3.5"} ${
-                  isDarkMode ? "text-gray-300" : "text-gray-500"
-                }`}
-              />
-            </button>
-          )}
+            />
+          </button>
         </div>
       </div>
-
       {error && (
         <div
-          className={`mt-2 ${isMobile ? "text-xs" : "text-sm"} ${
+          className={`mt-2 text-sm ${
             isDarkMode ? "text-red-300" : "text-red-500"
           }`}
         >
