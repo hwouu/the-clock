@@ -2,7 +2,8 @@
 import { useEffect, useCallback } from "react";
 import { Play, Pause, RefreshCw, X } from "lucide-react";
 import { useTimerStore } from "../../store/timerStore";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
+import { sendNotification } from "../../utils/notifications";
 
 const TimerDisplay = () => {
   const { isDarkMode } = useTheme();
@@ -37,48 +38,29 @@ const TimerDisplay = () => {
     } else if (
       activeTimer &&
       activeTimer.isRunning &&
-      activeTimer.remainingTime === 0
+      activeTimer.remainingTime <= 1
     ) {
-      // 타이머가 0이 되면 자동으로 정지
+      // 타이머가 0이 되면 자동으로 정지하고 알림 전송
       pauseTimer(activeTimer.id);
-
-      // 알림 표시 (브라우저 지원 확인)
-      if ("Notification" in window && Notification.permission === "granted") {
-        new Notification("타이머 완료", {
-          body: `${activeTimer.name} 타이머가 완료되었습니다.`,
-          icon: "/clock-icon.svg",
-        });
-      } else if (
-        "Notification" in window &&
-        Notification.permission !== "denied"
-      ) {
-        Notification.requestPermission();
-      }
-
-      // 소리 알림 (선택적)
-      const audio = new Audio("/alarm.mp3");
-      audio.play().catch((err) => console.log("알림 소리 재생 실패:", err));
+      updateTimer(activeTimer.id, 0); // 남은 시간을 0으로 설정
+      sendNotification(
+        "타이머 완료",
+        `${activeTimer.name} 타이머가 완료되었습니다.`
+      );
     }
   }, [activeTimer, updateTimer, pauseTimer]);
 
   // 타이머 업데이트를 위한 인터벌 설정
   useEffect(() => {
-    if (!activeTimer) return;
-
-    const intervalId = setInterval(tick, 1000);
-    return () => clearInterval(intervalId);
+    if (activeTimer?.isRunning) {
+      const intervalId = setInterval(tick, 1000);
+      return () => clearInterval(intervalId);
+    }
   }, [activeTimer, tick]);
 
   if (!activeTimer) {
     return null;
   }
-
-  // 진행률 계산 (0 ~ 100)
-  const progress = Math.floor(
-    ((activeTimer.duration - activeTimer.remainingTime) /
-      activeTimer.duration) *
-      100
-  );
 
   return (
     <div

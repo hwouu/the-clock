@@ -16,26 +16,20 @@ export function useTime() {
   const [time, setTime] = useState<TimeData>(getCurrentTime);
 
   useEffect(() => {
-    // Update time immediately to ensure accuracy
-    setTime(getCurrentTime());
-
-    // Calculate milliseconds until the next second
+    // 1초마다 정확한 시간에 동기화하여 시간을 업데이트합니다.
     const now = new Date();
     const millisToNextSecond = 1000 - now.getMilliseconds();
 
-    // Set initial timeout to sync with the exact second
-    const initialTimeout = setTimeout(() => {
+    const timeout = setTimeout(() => {
       setTime(getCurrentTime());
-
-      // After initial sync, set up the regular interval
-      const timer = setInterval(() => {
+      const interval = setInterval(() => {
         setTime(getCurrentTime());
       }, 1000);
 
-      return () => clearInterval(timer);
+      return () => clearInterval(interval);
     }, millisToNextSecond);
 
-    return () => clearTimeout(initialTimeout);
+    return () => clearTimeout(timeout);
   }, [getCurrentTime]);
 
   return time;
