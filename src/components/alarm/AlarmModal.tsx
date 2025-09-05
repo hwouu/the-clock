@@ -42,8 +42,19 @@ const AlarmModal = () => {
     closeModal();
   };
 
-  const hourOptions = Array.from({ length: 24 }, (_, i) => i);
-  const minuteOptions = Array.from({ length: 60 }, (_, i) => i);
+  const handleHourChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value) || 0;
+    if (value >= 0 && value <= 23) {
+      setHour(value);
+    }
+  };
+
+  const handleMinuteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value) || 0;
+    if (value >= 0 && value <= 59) {
+      setMinute(value);
+    }
+  };
 
   return (
     <Modal
@@ -77,37 +88,49 @@ const AlarmModal = () => {
             알람 시각
           </label>
           <div className="flex items-center space-x-3">
-            <select
-              value={hour}
-              onChange={(e) => setHour(parseInt(e.target.value))}
-              className={`w-full p-3 text-center text-lg font-medium border rounded-lg ${
-                isDarkMode
-                  ? "bg-gray-700 border-gray-600"
-                  : "bg-white border-gray-300"
-              }`}
-            >
-              {hourOptions.map((h) => (
-                <option key={h} value={h}>
-                  {String(h).padStart(2, "0")}
-                </option>
-              ))}
-            </select>
+            <div className="flex-1">
+              <label
+                htmlFor="hours"
+                className="block text-center text-xs mb-1 text-gray-500 dark:text-gray-400"
+              >
+                시
+              </label>
+              <input
+                id="hours"
+                type="number"
+                min="0"
+                max="23"
+                value={hour}
+                onChange={handleHourChange}
+                className={`w-full p-3 text-center text-lg font-medium border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
+                  isDarkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                }`}
+              />
+            </div>
             <span className="text-2xl font-light">:</span>
-            <select
-              value={minute}
-              onChange={(e) => setMinute(parseInt(e.target.value))}
-              className={`w-full p-3 text-center text-lg font-medium border rounded-lg ${
-                isDarkMode
-                  ? "bg-gray-700 border-gray-600"
-                  : "bg-white border-gray-300"
-              }`}
-            >
-              {minuteOptions.map((m) => (
-                <option key={m} value={m}>
-                  {String(m).padStart(2, "0")}
-                </option>
-              ))}
-            </select>
+            <div className="flex-1">
+              <label
+                htmlFor="minutes"
+                className="block text-center text-xs mb-1 text-gray-500 dark:text-gray-400"
+              >
+                분
+              </label>
+              <input
+                id="minutes"
+                type="number"
+                min="0"
+                max="59"
+                value={minute}
+                onChange={handleMinuteChange}
+                className={`w-full p-3 text-center text-lg font-medium border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
+                  isDarkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                }`}
+              />
+            </div>
           </div>
         </div>
         <div className="flex justify-end space-x-3 pt-2">
